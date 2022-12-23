@@ -846,6 +846,15 @@ input:checked + .slider:before {
     background-color: transparent !important;
 }
 
+#swal2-title{
+    font-size: 1.275em;
+    color:antiquewhite;
+}
+
+.swal2-image{
+    margin: 2em auto 4em !important;
+}
+
 .swal2-file {
     color: white !important;
     background-color: transparent !important;

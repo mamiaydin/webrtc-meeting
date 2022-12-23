@@ -27,10 +27,10 @@ const roomId = getRoomId();
 const peerLoockupUrl = 'https://extreme-ip-lookup.com/json/?key=demo2'; // get your API Key at https://extreme-ip-lookup.com
 const avatarApiUrl = 'https://eu.ui-avatars.com/api';
 const surveyURL = 'https://www.questionpro.com/t/AUs7VZq00L';
-const welcomeImg = '../images/image-placeholder.png';
-const shareUrlImg = '../images/image-placeholder.png';
+const welcomeImg = '../images/main-logo.png';
+const shareUrlImg = '../images/main-logo.png';
 const leaveRoomImg = '../images/leave-room.png';
-const confirmImg = '../images/image-placeholder.png';
+const confirmImg = '../images/main-logo.png';
 const fileSharingImg = '../images/share.png';
 const roomLockedImg = '../images/locked.png';
 const camOffImg = '../images/cam-off.png';
@@ -5928,7 +5928,7 @@ function handleRoomLocked() {
             popup: 'animate__animated animate__fadeOutUp',
         },
     }).then((result) => {
-        if (result.isConfirmed) openURL('/newcall');
+        if (result.isConfirmed) openURL('/');
     });
 }
 
@@ -7120,7 +7120,7 @@ function handleKickedOut(config) {
             popup: 'animate__animated animate__fadeOutUp',
         },
     }).then(() => {
-        openURL('/newcall');
+        openURL('/');
     });
 }
 
@@ -7159,8 +7159,32 @@ function showAbout() {
  * Leave the Room and create a new one
  */
 function leaveRoom() {
+    
+    Swal.fire({
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showDenyButton: true,
+        background: swalBackground,
+        imageUrl: imgFeedback,
+        title: 'Leave Room?',
+        confirmButtonText: `Yes`,
+        denyButtonText: `No`,
+        showClass: {
+            popup: 'animate__animated animate__fadeInDown',
+        },
+        hideClass: {
+            popup: 'animate__animated animate__fadeOutUp',
+        },
+    }).then((result) => {
+        if (result.isConfirmed) {
+            openURL('/');
+        } else {
+            
+        }
+    });
+
     playSound('eject');
-    openURL('/newcall');
+    
 }
 
 /**
@@ -7187,7 +7211,7 @@ function leaveFeedback() {
         if (result.isConfirmed) {
             openURL(surveyURL);
         } else {
-            openURL('/newcall');
+            openURL('/');
         }
     });
 }
