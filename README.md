@@ -5,5 +5,11 @@
 <hr />
 
 <p align="center">
-    <a href="https://github.com/miroslavpejic85/mirotalk">Clone of this repository. Inspired from https://www.spatial.chat/ </a>
+    <a href="https://github.com/miroslavpejic85/mirotalk">Cloned from this repository.</a>
+</p>
+
+<br>
+
+Inspired from <p align="center">
+    <a href="https://www.spatial.chat/ ">spatial.chat</a>
 </p>
