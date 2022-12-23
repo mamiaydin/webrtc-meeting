@@ -1060,15 +1060,11 @@ async function whoAreYou() {
 
     initAudioBtn = getId('initAudioBtn');
     initVideoBtn = getId('initVideoBtn');
+    
 
-    if (!useVideo) {
-        initVideoBtn.className = className.videoOff;
-        setMyVideoStatus(useVideo);
-    }
-    if (!useAudio) {
-        initAudioBtn.className = className.audioOff;
-        setMyAudioStatus(useAudio);
-    }
+    initVideoBtn.click();
+    initAudioBtn.click();
+
     setTippy(initAudioBtn, 'Stop the audio', 'top');
     setTippy(initVideoBtn, 'Stop the video', 'top');
 }
@@ -1098,6 +1094,7 @@ function checkPeerAudioVideo() {
  */
 function whoAreYouJoin() {
     myVideoWrap.style.display = 'inline';
+    myVideoWrap.style.zIndex = '10';
     //myVideoParagraph.innerHTML = myPeerName + ' (me)';
     setPeerAvatarImgName(myVideoAvatarImage.id, myPeerName, useAvatarApi);
     setPeerChatAvatarImgName('right', myPeerName);
@@ -2698,6 +2695,7 @@ function handleVideoPinUnpin(elemId, pnId, camId, peerId, isScreen = false) {
                 cam.style.top = '30%'
                 //toggleVideoPin(pinVideoPositionSelect.value);
                 videoMediaContainer.appendChild(cam);
+                myVideo.style.display = 'inline';
                 videoMediaContainer.style.display = 'block';
                 AddDraggableVideoAndAvatarElements();
                 pinnedVideoPlayerId = elemId;
@@ -2722,9 +2720,6 @@ function handleVideoPinUnpin(elemId, pnId, camId, peerId, isScreen = false) {
                 cam.style.height = '0';
                 videoMediaContainer.appendChild(cam);
                 
-                videoBtn.click();
-                                    
-                //removeVideoPinMediaContainer(peerId, true);
                 setColor(btnPn, 'white');
             }
             adaptAspectRatio();
@@ -2907,18 +2902,18 @@ function manageLeftButtons() {
     setShareRoomBtn();
     setAudioBtn();
     setVideoBtn();
-    setSwapCameraBtn();
+    //setSwapCameraBtn();
     setScreenShareBtn();
-    setRecordStreamBtn();
+    //setRecordStreamBtn();
     setFullScreenBtn();
     setChatRoomBtn();
-    setCaptionRoomBtn();
+    //setCaptionRoomBtn();
     setChatEmojiBtn();
     setMyHandBtn();
     setMyWhiteboardBtn();
     setMyFileShareBtn();
     setMySettingsBtn();
-    setAboutBtn();
+    //setAboutBtn();
     setLeaveRoomBtn();
 }
 
@@ -4003,11 +3998,12 @@ function handleAudio(e, init, force = null) {
 function handleVideo(e, init, force = null) {
     if (!useVideo) return;
     // https://developer.mozilla.org/en-US/docs/Web/API/MediaStream/getVideoTracks
-
+    
     let avatarData = {
         type: 'avatar',
         peer_id: myPeerId,
         avatar_src: myVideoAvatarImage.src,
+        is_video: myVideoStatus
     };
     sendToDataChannel(avatarData);
 
@@ -4098,8 +4094,10 @@ async function toggleScreenSharing() {
                 setMyVideoStatusTrue();
                 emitPeersAction('screenStart');
             } else {
+                //useVideo= false;
+                //videoBtn.click();
                 emitPeersAction('screenStop');
-               // adaptAspectRatio();
+                //adaptAspectRatio();
             }
             
             myScreenStatus = isScreenStreaming;
@@ -4109,7 +4107,7 @@ async function toggleScreenSharing() {
             await refreshMyStreamToPeers(screenMediaPromise);
             myVideo.classList.toggle('mirror');
             setScreenSharingStatus(isScreenStreaming);
-            if (myVideoAvatarImage && !useVideo)
+            if (myVideoAvatarImage)
                 myVideoAvatarImage.style.display = isScreenStreaming ? 'none' : 'block';
             let myPrivacyBtn = getId('myPrivacyBtn');
             if (myPrivacyBtn) myPrivacyBtn.style.display = isScreenStreaming ? 'none' : 'inline';
@@ -4718,9 +4716,6 @@ function handleDataChannelChat(dataMessage) {
     avatarImgElement.setAttribute("src",dataMessage.avatar_src);
     if(!dataMessage.is_video){
         avatarImgElement.style.display = "block";
-    }
-    else{
-        avatarImgElement.style.display = "none";
     }
     
 }
@@ -5362,7 +5357,10 @@ function setMyAudioStatus(status) {
  */
 function setMyVideoStatus(status) {
     // on vdeo OFF display my video avatar name
-    if (myVideoAvatarImage) myVideoAvatarImage.style.display = status ? 'none' : 'block';
+    if (myVideoAvatarImage) {
+        myVideoAvatarImage.style.display = status ? 'none' : 'block';
+        //myVideo.style.display = status ? 'block' : 'none';
+    }
     if (myVideoStatusIcon) myVideoStatusIcon.className = status ? className.videoOn : className.videoOff;
     // send my video status to all peers in the room
     emitPeerStatus('video', status);
@@ -5383,7 +5381,7 @@ function handlePeerStatus(config) {
     let peer_name = config.peer_name;
     let element = config.element;
     let status = config.status;
-
+    
     switch (element) {
         case 'video':
             setPeerVideoStatus(peer_id, status);
@@ -5680,9 +5678,19 @@ function handleScreenStop(peer_id, peer_use_video) {
         });
     } else {
         if (remoteVideoAvatarImage) {
-            remoteVideoAvatarImage.style.display = 'none';
+            remoteVideoAvatarImage.style.display = 'block';
         }
     }
+
+    // let avatarData = {
+    //     type: 'avatar',
+    //     peer_id: myPeerId,
+    //     avatar_src: myVideoAvatarImage.src,
+    //     is_video: false
+    // };
+    // setMyVideoOff(myPeerName);
+    // sendToDataChannel(avatarData);
+    
 }
 
 /**
@@ -7152,11 +7160,7 @@ function showAbout() {
  */
 function leaveRoom() {
     playSound('eject');
-    if (surveyActive) {
-        leaveFeedback();
-    } else {
-        openURL('/newcall');
-    }
+    openURL('/newcall');
 }
 
 /**

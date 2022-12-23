@@ -96,8 +96,8 @@
     z-index: 7;
     position: absolute;
     display: none;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     transition: all 0.3s ease;
     border-radius: 500px;
     /*center*/
@@ -128,8 +128,8 @@
 
 video {
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     object-fit: var(--video-object-fit);
     border-radius: 500px;
     cursor: pointer;

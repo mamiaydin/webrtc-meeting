@@ -199,7 +199,9 @@ body {
 /*--------------------------------------------------------------
 # Chat room aka msger
 --------------------------------------------------------------*/
-
+.disable-button{
+    display: none !important;
+}
 .msger-draggable {
     z-index: 14;
     display: none;
