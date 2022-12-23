@@ -6,8 +6,8 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: mirotalk
-        hostname: mirotalk
+        container_name: taigatalks
+        hostname: taigatalks
         volumes:
             - .env:/src/.env:ro
             - ./app/:/src/app/:ro
