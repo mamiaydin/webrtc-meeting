@@ -1056,7 +1056,6 @@ async function whoAreYou() {
         playSound('addPeer');
     });
 
-    if (isMobileDevice) return;
 
     initAudioBtn = getId('initAudioBtn');
     initVideoBtn = getId('initVideoBtn');
