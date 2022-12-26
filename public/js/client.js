@@ -1060,9 +1060,8 @@ async function whoAreYou() {
     initAudioBtn = getId('initAudioBtn');
     initVideoBtn = getId('initVideoBtn');
     
-
+    //close camera at start
     initVideoBtn.click();
-    initAudioBtn.click();
 
     setTippy(initAudioBtn, 'Stop the audio', 'top');
     setTippy(initVideoBtn, 'Stop the video', 'top');
@@ -1073,6 +1072,7 @@ async function whoAreYou() {
  * 1/true = enabled / 0/false = disabled
  */
 function checkPeerAudioVideo() {
+    debugger;
     let qs = new URLSearchParams(window.location.search);
     let audio = qs.get('audio');
     let video = qs.get('video');
@@ -7460,6 +7460,23 @@ function bytesToSize(bytes) {
  * @param {object} data peer audio
  */
 function handlePeerVolume(data) {
+    let myCameraElement= getId(myPeerId + '_videoWrap');
+    let peerCameraElement= getId(data.peer_id + '_videoWrap');
+    var remoteAudio = getId(data.peer_id+ '_audioVolume');
+    let distance = getDistanceBetweenElements(myCameraElement,peerCameraElement);
+    
+    // var a = peerPositions[0] - myPositions[0];
+    // var b = peerPositions[1] - myPositions[1];
+    // var distance = Math.sqrt( a*a + b*b );
+    if(distance > 100){
+        console.log("DISTANCE")
+        remoteAudio.value = 0;
+    }
+    else{
+        remoteAudio.value = 100;
+    }
+    
+
     let peer_id = data.peer_id;
     let element = getId(peer_id + '_pitch_bar');
     let remoteVideoWrap = getId(peer_id + '_videoWrap');
