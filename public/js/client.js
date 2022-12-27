@@ -1850,6 +1850,7 @@ async function loadLocalMedia(stream) {
 
     // html elements
     const myVideoNavBar = document.createElement('div');
+    const mySoundCircle = document.createElement('div');
     const myCountTime = document.createElement('button');
     const myPeerName = document.createElement('p');
     const myHandStatusIcon = document.createElement('button');
@@ -1862,6 +1863,9 @@ async function loadLocalMedia(stream) {
     const myVideoAvatarImage = document.createElement('img');
     const myPitchMeter = document.createElement('div');
     const myPitchBar = document.createElement('div');
+
+    mySoundCircle.setAttribute('id', myPeerId + '_soundCircle');
+    mySoundCircle.className = "dot";
 
     // session time
     myCountTime.setAttribute('id', 'countTime');
@@ -1964,6 +1968,7 @@ async function loadLocalMedia(stream) {
 
     // add elements to video wrap div
     myVideoWrap.appendChild(myVideoNavBar);
+    myVideoWrap.appendChild(mySoundCircle);
     myVideoWrap.appendChild(myVideoAvatarImage);
     myVideoWrap.appendChild(myLocalMedia);
     myVideoWrap.appendChild(myPitchMeter);
@@ -7279,7 +7284,7 @@ function dragElement(elmnt, dragObj) {
         return;
     }
     console.log('Moving enabled!');
-    
+    let dot = getId(myPeerId + '_soundCircle');
 
     let pos1 = 0,
         pos2 = 0,
@@ -7300,8 +7305,10 @@ function dragElement(elmnt, dragObj) {
         e.preventDefault();
 
         let ratio = screen.height * 0.15;
-        let isDraggable =  dragObj.classList.contains('videoDefault');
-        if(!isDraggable) dragObj.style.boxShadow = "0 0 0 "+ ratio+"px rgba(238, 105, 203, 0.2)";
+        ratio = 230;
+        let isScreenSharing =  dragObj.classList.contains('videoDefault');
+        
+        if(!isScreenSharing) dot.style.display = "block";
         
         // get the mouse cursor position at startup:
         pos3 = e.clientX;
@@ -7343,7 +7350,7 @@ function dragElement(elmnt, dragObj) {
 
     function closeDragElement() {
         // stop moving when mouse button is released:
-        dragObj.style.boxShadow = "";
+        dot.style.display = "none";
         document.onmouseup = null;
         document.onmousemove = null;
     }
@@ -7463,17 +7470,16 @@ function handlePeerVolume(data) {
     let myCameraElement= getId(myPeerId + '_videoWrap');
     let peerCameraElement= getId(data.peer_id + '_videoWrap');
     var remoteAudio = getId(data.peer_id+ '_audioVolume');
+    var remoteVideo = getId(data.peer_id+ '_video');
     let distance = getDistanceBetweenElements(myCameraElement,peerCameraElement);
-    
-    // var a = peerPositions[0] - myPositions[0];
-    // var b = peerPositions[1] - myPositions[1];
-    // var distance = Math.sqrt( a*a + b*b );
-    if(distance > 100){
-        console.log("DISTANCE")
+    console.log("DISTANCE :" + distance);
+    if(distance > 300){
         remoteAudio.value = 0;
+        remoteVideo.volume = 0;
     }
     else{
         remoteAudio.value = 100;
+        remoteVideo.volume = 1;
     }
     
 
