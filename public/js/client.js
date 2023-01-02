@@ -19,6 +19,7 @@
  *
  */
 
+
 'use strict'; // https://www.w3schools.com/js/js_strict.asp
 
 const isHttps = false; // must be the same on server.js
@@ -204,6 +205,7 @@ let pinVideoPositionSelect;
 let swalBackground = 'rgba(0, 0, 0, 0.7)'; // black - #16171b - transparent ...
 let peerGeo;
 let myPeerName = getPeerName();
+let myLocation = [0,0];
 let isScreenEnabled = getScreenEnabled();
 let isScreenSharingSupported = false;
 let isCamMirrored = false;
@@ -1072,7 +1074,6 @@ async function whoAreYou() {
  * 1/true = enabled / 0/false = disabled
  */
 function checkPeerAudioVideo() {
-    debugger;
     let qs = new URLSearchParams(window.location.search);
     let audio = qs.get('audio');
     let video = qs.get('video');
@@ -1121,6 +1122,7 @@ async function joinToChannel() {
         peer_hand_status: myHandStatus,
         peer_rec_status: isRecScreenStream,
         peer_privacy_status: isVideoPrivacyActive,
+        peer_location: [0,0]
     });
 }
 
@@ -1219,7 +1221,6 @@ async function handleAddPeer(config) {
     await handleRTCDataChannels(peer_id);
     await handleOnTrack(peer_id, peers);
     await handleAddTracks(peer_id);
-
     if (useVideo && !peer_video && !needToCreateOffer) {
         needToCreateOffer = true;
     }
@@ -2019,6 +2020,8 @@ async function loadLocalMedia(stream) {
     }
 }
 
+
+
 function AddDraggableVideoAndAvatarElements(){
      //mamiiiii
      if(myPeerId != null){
@@ -2079,6 +2082,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id) {
     let peer_hand_status = peers[peer_id]['peer_hand_status'];
     let peer_rec_status = peers[peer_id]['peer_rec_status'];
     let peer_privacy_status = peers[peer_id]['peer_privacy_status'];
+    let peer_location = peers[peer_id]['peer_location'];
 
     remoteMediaStream = stream;
 
@@ -2232,6 +2236,10 @@ async function loadRemoteMediaStream(stream, peers, peer_id) {
     remoteMedia.controls = remoteMediaControls;
 
     remoteVideoWrap.className = 'Camera';
+    if(peer_location[0]!= 0 && peer_location[1] != 0){
+        remoteVideoWrap.style.left = peer_location[0] + 'px';
+        remoteVideoWrap.style.top = peer_location[1] + 'px';
+    }
     remoteVideoWrap.setAttribute('id', peer_id + '_videoWrap');
 
     // add elements to videoWrap div
@@ -2356,6 +2364,7 @@ function logStreamSettingsInfo(name, stream) {
  *    0      1       2      3      4
  */
 function adaptAspectRatio() {
+    return;
     let participantsCount = getId('videoMediaContainer').childElementCount;
     let desktop,
         mobile = 1;
@@ -2435,7 +2444,7 @@ function setPeerAvatarImgName(videoAvatarImageId, peerName, useAvatar) {
         videoAvatarImageElement.setAttribute('src', avatarImg);
         avatarSrc = avatarImg;
     }
-
+    
    return avatarSrc;
 }
 
@@ -6527,8 +6536,8 @@ function handleDataChannelFileSharing(data) {
 
     let peer_id = data.peer_id;
     let element = getId(peer_id + '_videoWrap');
-    element.style.top = data.moving_top * screen.height + 'px';
-    element.style.left = data.moving_left * screen.width + 'px';
+    element.style.top = data.moving_top + 'px';
+    element.style.left = data.moving_left + 'px';
 }
 
 /**
@@ -7285,11 +7294,13 @@ function dragElement(elmnt, dragObj) {
     }
     console.log('Moving enabled!');
     let dot = getId(myPeerId + '_soundCircle');
-
+    let topValue = 0;
+    let leftValue = 0;
     let pos1 = 0,
         pos2 = 0,
         pos3 = 0,
         pos4 = 0;
+        
     if (dragObj) {
         // if present, the header is where you move the DIV from:
         dragObj.onmousedown = dragMouseDown;
@@ -7330,19 +7341,19 @@ function dragElement(elmnt, dragObj) {
         pos3 = e.clientX;
         pos4 = e.clientY;
         // set the element's new position:
-        let topValue = elmnt.offsetTop - pos2 ;
-        let leftValue = elmnt.offsetLeft - pos1 ;
+        topValue = elmnt.offsetTop - pos2 ;
+        leftValue = elmnt.offsetLeft - pos1 ;
 
         let elemTop = topValue + 'px';
         let elemLeft = leftValue + 'px';
         elmnt.style.top = elemTop;
         elmnt.style.left = elemLeft;
         
-        
+
         let data = {
             peer_id: myPeerId,
-            moving_top: topValue / screen.height,
-            moving_left: leftValue / screen.width
+            moving_top: topValue,
+            moving_left: leftValue
         };
         sendToMovingDataChannel(data);
     }
@@ -7350,6 +7361,9 @@ function dragElement(elmnt, dragObj) {
 
     function closeDragElement() {
         // stop moving when mouse button is released:
+        emitPeerStatus('location', [leftValue,topValue]);
+        myLocation[0] = leftValue;
+        myLocation[1] = topValue;
         dot.style.display = "none";
         document.onmouseup = null;
         document.onmousemove = null;
@@ -7413,8 +7427,8 @@ function dragElement(elmnt, dragObj) {
 
         let data = {
             peer_id: myPeerId,
-            moving_top: topValue / screen.height,
-            moving_left: leftValue / screen.width
+            moving_top: topValue,
+            moving_left: leftValue
         };
         sendToMovingDataChannel(data);
     }
@@ -7473,7 +7487,7 @@ function handlePeerVolume(data) {
     var remoteVideo = getId(data.peer_id+ '_video');
     let distance = getDistanceBetweenElements(myCameraElement,peerCameraElement);
     console.log("DISTANCE :" + distance);
-    if(distance > 300){
+    if(distance > 365){
         remoteAudio.value = 0;
         remoteVideo.volume = 0;
     }

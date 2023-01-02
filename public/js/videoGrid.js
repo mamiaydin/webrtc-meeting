@@ -82,7 +82,7 @@ function resizeVideoMedia() {
     }
 
     max = max - Margin * 2;
-    setWidth(videoMediaContainer, Cameras, max, bigWidth, Margin, Height);
+    //setWidth(videoMediaContainer, Cameras, max, bigWidth, Margin, Height);
     document.documentElement.style.setProperty('--vmi-wh', max / 3 + 'px');
 }
 
@@ -121,26 +121,33 @@ function setWidth(videoMediaContainer, Cameras, width, bigWidth, margin, maxHeig
 window.addEventListener(
     'load',
     function (event) {
-        function zoom(event) {
-              event.preventDefault();
-              
-              scale += event.deltaY * -0.009;
-            
-              // Restrict scale
-              scale = Math.min(Math.max(1, scale), 2.2);
-            
-              // Apply scale transform
-                el.style.transform = `scale(${scale})`;
-              
-            }
-            
-            let scale = 1;
-            const el = document.querySelector('body');
-            //const el = document.getElementById('videoMediaContainer');
-            document.body.onwheel = zoom;
 
-        resizeVideoMedia();
-        window.onresize = resizeVideoMedia;
+        // function zoom(event) {
+        //       event.preventDefault();
+              
+        //       scale += event.deltaY * -0.009;
+            
+        //       // Restrict scale
+        //       scale = Math.min(Math.max(1, scale), 2.2);
+            
+        //       // Apply scale transform
+        //         el.style.transform = `scale(${scale})`;
+              
+        //     }
+            
+        //     let scale = 1;
+        //     const el = document.querySelector('body');
+        //     //const el = document.getElementById('videoMediaContainer');
+        //     document.body.onwheel = zoom;
+
+        //resizeVideoMedia();
+        //window.onresize = resizeVideoMedia;
+
+
+
+
     },
+
+    
     false,
 );
