@@ -14,6 +14,8 @@
     justify-content: center;
     vertical-align: middle;
     overflow: hidden;
+    width: 3200px;
+    height: 1800px;
 }
 
 #videoPinMediaContainer {
@@ -98,6 +100,7 @@
     height: 50px;
     transition: all 0.3s ease;
     border-radius: 50%;
+    cursor: pointer;
     /*center*/
 }
 
@@ -121,9 +124,11 @@
 
 .videoDefault {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 50%;
+    height: 50%;
     border-radius: 10px !important;
+    top:50%;
+    left:30%;
 }
 
 video {
@@ -133,8 +138,6 @@ video {
     object-fit: var(--video-object-fit);
     border-radius: 50%;
     cursor: pointer;
-
-    
 }
 
 .dot {

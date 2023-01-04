@@ -64,7 +64,8 @@
         <link rel="stylesheet" href="../css/whiteboard.css" />
 
         <!-- https://cdnjs.com/libraries/font-awesome -->
-
+        <!-- Add icon library -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
 
         <!-- https://animate.style 4 using for swal fadeIn-Out -->
@@ -457,13 +458,28 @@ access to use this app.
 
         <!-- End Video - Audio player -->
 
+
+        <div id="center-location">
+                
+        </div>
+
         <!-- Start Video container -->
 
         <div id="videoPinMediaContainer"></div>
         <div id="videoMediaContainer" class="image">
             <!-- <div class="Camera"></div> -->
         </div>
+        <div id="stickyButtonsBar" class="stickyButtonsBar">
+            <button class="btn" onclick="ScrollToMe()"><i class="fa fa-home"></i></button>
+            <button id="myAudioBtnCustom" class="btn" onclick="MyAudioButtonClick(this)"><i class="fa fa-microphone"></i></button>
+            <button id="myVideoBtnCustom" class="btn" onclick="MyVideoButtonClick(this)"><i class="fa fa-video-camera"></i></button>
 
+        </div>
+        <div id="stickyZoomButtons" class="stickyZoomButtons">
+            <a id="btnZoomIn" onclick="ScaleBody('in')" class="btn zoom"><i class="fas fa-search-plus"></i></a>
+            <a id="btnZoomOut" onclick="ScaleBody('out')" class="btn zoom-out"><i class="fas fa-search-minus"></i></a>
+            <a id="btnZoomInit" onclick="ScaleBody('init')" class="btn zoom-init"><i class="fas fa-recycle"></i></a>
+        </div>
         <!-- End Video container -->
 
         <!--

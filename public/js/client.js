@@ -808,6 +808,8 @@ function initClientPeer() {
     }
 
     console.log('01. Connecting to signaling server');
+    dragBodyElement();
+    ScrollToCenter();
 
     // Disable the HTTP long-polling transport
     signalingSocket = io({ transports: ['websocket'] });
@@ -883,7 +885,6 @@ async function sendToDataChannel(config) {
  */
 async function handleConnect() {
     console.log('03. Connected to signaling server');
-
     myPeerId = signalingSocket.id;
     console.log('04. My peer id [ ' + myPeerId + ' ]');
 
@@ -1023,7 +1024,6 @@ async function whoAreYou() {
         playSound('addPeer');
         return;
     }
-
     playSound('newMessage');
 
     Swal.fire({
@@ -1546,6 +1546,7 @@ function handleRemovePeer(config) {
  * @param {string} theme type
  */
 function setTheme(theme) {
+    return;
     if (!theme) return;
 
     mirotalkTheme = theme;
@@ -1830,6 +1831,7 @@ async function setupLocalMedia() {
             `/permission?roomId=${roomId}&getUserMediaError=${err.toString()} <br/> Check the common getusermedia errors <a href="https://blog.addpipe.com/common-getusermedia-errors" target="_blank">here<a/>`,
         );
     }
+    
 } // end [setup_local_stream]
 
 /**
@@ -1839,7 +1841,7 @@ async function setupLocalMedia() {
 async function loadLocalMedia(stream) {
     console.log('10. Access granted to audio - video device');
     // hide loading div
-    getId('loadingDiv').style.display = 'none';
+    getId('loadingDiv').style.display = 'none';        
 
     localMediaStream = stream;
 
@@ -2011,7 +2013,6 @@ async function loadLocalMedia(stream) {
     
 
     AddDraggableVideoAndAvatarElements();
-    
 
     if (!useVideo) {
         myVideoAvatarImage.style.display = 'block';
@@ -2292,7 +2293,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id) {
     }
 
     // refresh remote peers avatar name
-    var avatarSrc = setPeerAvatarImgName(remoteVideoAvatarImage.id, peer_name, useAvatarApi);
+    setPeerAvatarImgName(remoteVideoAvatarImage.id, peer_name, useAvatarApi);
     // refresh remote peers hand icon status and title
     setPeerHandStatus(peer_id, peer_name, peer_hand_status);
     // refresh remote peers video icon status and title
@@ -3997,6 +3998,7 @@ function handleAudio(e, init, force = null) {
 
     if (init) {
         audioBtn.className = myAudioStatus ? className.audioOn : className.audioOff;
+        myAudioBtnCustom.firstChild.className = myAudioStatus ? className.audioOn : className.audioOff;
         setTippy(initAudioBtn, myAudioStatus ? 'Stop the audio' : 'Start the audio', 'top');
     }
     setMyAudioStatus(myAudioStatus);
@@ -4030,6 +4032,7 @@ function handleVideo(e, init, force = null) {
 
     if (init) {
         videoBtn.className = myVideoStatus ? className.videoOn : className.videoOff;
+        myVideoBtnCustom.firstChild.className = myVideoStatus ? className.videoOn : className.videoOff;
         setTippy(initVideoBtn, myVideoStatus ? 'Stop the video' : 'Start the video', 'top');
     }
     setMyVideoStatus(myVideoStatus);
@@ -7278,6 +7281,8 @@ function dragElement(elmnt, dragObj) {
     }
 }
 
+let isAlreadyMoving = false;
+
 /**
  * Make Obj draggable: https://www.w3schools.com/howto/howto_js_draggable.asp
  * @param {object} elmnt father element
@@ -7288,6 +7293,7 @@ function dragElement(elmnt, dragObj) {
         mobileDragVideoElement(elmnt,dragObj);
         return;
     }
+
     if(myPeerId + "_videoWrap" != elmnt.id || myPeerId + "_videoWrap" != elmnt.id){
         console.log('Moving doesnt work!');
         return;
@@ -7315,8 +7321,6 @@ function dragElement(elmnt, dragObj) {
         e = e || window.event;
         e.preventDefault();
 
-        let ratio = screen.height * 0.15;
-        ratio = 230;
         let isScreenSharing =  dragObj.classList.contains('videoDefault');
         
         if(!isScreenSharing) dot.style.display = "block";
@@ -7333,6 +7337,7 @@ function dragElement(elmnt, dragObj) {
     
 
     function elementDrag(e) {
+        isAlreadyMoving = true;
         e = e || window.event;
         e.preventDefault();
         // calculate the new cursor position:
@@ -7360,6 +7365,7 @@ function dragElement(elmnt, dragObj) {
 
 
     function closeDragElement() {
+        isAlreadyMoving = false;
         // stop moving when mouse button is released:
         emitPeerStatus('location', [leftValue,topValue]);
         myLocation[0] = leftValue;
@@ -7441,6 +7447,122 @@ function dragElement(elmnt, dragObj) {
     }
 }
 
+function ScrollToCenter(){
+    document.getElementById('center-location').scrollIntoView({  block: "center", inline: "center" });
+    if(isMobileDevice){
+        getId("stickyButtonsBar").style.left = '30%';
+        let zoomButtons =  getId("stickyZoomButtons");
+        zoomButtons.style.left = '85%';
+        zoomButtons.style.top = '70%';
+        
+    }
+    
+}
+
+let initial_zoom = 100;
+
+function ScaleBody(zoomChange){
+  
+    switch(zoomChange){
+        case "out" :
+                if(initial_zoom > 40)
+                    if(screen.width > 1280 && initial_zoom <= 100) return;
+                    initial_zoom -=30;
+            break;
+        case "in":
+            if(initial_zoom <180)
+                initial_zoom +=40;
+            break;
+        case "init":
+            initial_zoom = 100;
+    }
+
+  let myVideoContainer = getId("videoMediaContainer");
+  myVideoContainer.style.transformOrigin="top left";
+  myVideoContainer.style.transform="scale("+initial_zoom+"%)";
+  getId(myPeerId + "_avatar").scrollIntoView({  block: "center", inline: "center" });
+}
+
+function ScrollToMe(){
+    getId(myPeerId + "_avatar").scrollIntoView({  block: "center", inline: "center" });
+}
+
+function MyVideoButtonClick(e){
+    getId('videoBtn').click();
+    if(!myVideoStatus){
+        e.firstChild.classList.remove("fa-video");
+        e.firstChild.classList.add("fa-video-slash");
+    }
+    else{
+        e.firstChild.classList.add("fa-video");
+        e.firstChild.classList.remove("fa-video-slash");
+    }
+}
+
+function MyAudioButtonClick(e){
+    getId('audioBtn').click();
+    if(!myAudioStatus){
+        e.firstChild.classList.remove("fa-microphone");
+        e.firstChild.classList.add("fa-microphone-slash");
+    }
+    else{
+        e.firstChild.classList.add("fa-microphone");
+        e.firstChild.classList.remove("fa-microphone-slash");
+    }
+}
+
+
+
+function dragBodyElement(){
+    const container = document.body;
+    
+        let startY;
+        let startX;
+        let scrollLeft;
+        let scrollTop;
+        let isDown;
+        
+        container.addEventListener('mousedown',e => mouseIsDown(e));  
+        container.addEventListener('mouseup',e => mouseUp(e))
+        container.addEventListener('mouseleave',e=>mouseLeave(e));
+        container.addEventListener('mousemove',e=>mouseMove(e));
+        
+        function mouseIsDown(e){
+          isDown = true;
+          startY = e.pageY - container.offsetTop;
+          startX = e.pageX - container.offsetLeft;
+          scrollLeft = container.scrollLeft;
+          scrollTop = container.scrollTop; 
+        }
+        function mouseUp(e){
+            container.style.cursor = "default";
+          isDown = false;
+        }
+        function mouseLeave(e){
+            container.style.cursor = "default";
+          isDown = false;
+        }
+        function mouseMove(e){
+            if(isAlreadyMoving) return;
+            
+          if(isDown){
+            e.preventDefault();
+            //Move vertcally
+            container.style.cursor = "move";
+            const y = e.pageY - container.offsetTop;
+            const walkY = y - startY;
+            container.scrollTop = scrollTop - walkY;
+        
+            //Move Horizontally
+            const x = e.pageX - container.offsetLeft;
+            const walkX = x - startX;
+            container.scrollLeft = scrollLeft - walkX;
+        
+          }
+        }
+}
+
+
 /**
  * Create Moving Peer Data Channel
  * @param {string} peer_id socket.id
@@ -7486,7 +7608,6 @@ function handlePeerVolume(data) {
     var remoteAudio = getId(data.peer_id+ '_audioVolume');
     var remoteVideo = getId(data.peer_id+ '_video');
     let distance = getDistanceBetweenElements(myCameraElement,peerCameraElement);
-    console.log("DISTANCE :" + distance);
     if(distance > 365){
         remoteAudio.value = 0;
         remoteVideo.volume = 0;
