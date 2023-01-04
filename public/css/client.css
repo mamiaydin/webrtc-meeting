@@ -199,7 +199,7 @@ body {
 
 .fa-microphone-slash,
 .fa-video-slash {
-    color: #04333c !important;
+    color: rgba(0, 0, 0, 0.9) !important;
 }
 
 /*--------------------------------------------------------------
@@ -1299,7 +1299,7 @@ button {
 }
 
 .btn {
-    background-color: DodgerBlue;
+    background-color:rgba(0, 0, 0, 0.7);
     border-radius: 15px;
     color: white;
     border:none;
@@ -1308,7 +1308,7 @@ button {
     cursor: pointer;
   }
   .btn:hover {
-    background-color: RoyalBlue;
+    background-color:rgba(88, 86, 86, 0.7);
   }
   
   .stickyZoomButtons{
