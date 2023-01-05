@@ -469,11 +469,20 @@ access to use this app.
         <div id="videoMediaContainer" class="image">
             <!-- <div class="Camera"></div> -->
         </div>
+        
+        <div id="stickyRoomInfoBar" class="stickyRoomInfoBar">
+          
+            <div id="roomName" class="room roomName">TAIGA</div>
+            <a id="roomPeerNumber" class="room roomPeerNumber"><i class="fas fa-user"></i>2</a>
+            
+        </div>
+
         <div id="stickyButtonsBar" class="stickyButtonsBar">
             <button class="btn" onclick="ScrollToMe()"><i class="fa fa-home"></i></button>
+            <button id="myScreenShareBtnCustom" class="btn" onclick="MyScreenShareButtonClick(this)"><i class="fa fa-desktop"></i></button>
             <button id="myAudioBtnCustom" class="btn" onclick="MyAudioButtonClick(this)"><i class="fa fa-microphone"></i></button>
             <button id="myVideoBtnCustom" class="btn" onclick="MyVideoButtonClick(this)"><i class="fa fa-video-camera"></i></button>
-
+            
         </div>
         <div id="stickyZoomButtons" class="stickyZoomButtons">
             <a id="btnZoomIn" onclick="ScaleBody('in')" class="btn zoom"><i class="fas fa-search-plus"></i></a>

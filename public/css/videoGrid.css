@@ -124,11 +124,9 @@
 
 .videoDefault {
     position: absolute;
-    width: 50%;
-    height: 50%;
+    width: 1280px;
+    height: 841px;
     border-radius: 10px !important;
-    top:50%;
-    left:30%;
 }
 
 video {

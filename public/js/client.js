@@ -205,7 +205,7 @@ let pinVideoPositionSelect;
 let swalBackground = 'rgba(0, 0, 0, 0.7)'; // black - #16171b - transparent ...
 let peerGeo;
 let myPeerName = getPeerName();
-let myLocation = [0,0];
+let myLocation = [0,0]; //myLocation[0] = left myLocation[1] = top
 let isScreenEnabled = getScreenEnabled();
 let isScreenSharingSupported = false;
 let isCamMirrored = false;
@@ -1107,6 +1107,7 @@ function whoAreYouJoin() {
  */
 async function joinToChannel() {
     console.log('12. join to channel', roomId);
+
     sendToServer('join', {
         channel: roomId,
         userAgent: userAgent,
@@ -1122,7 +1123,7 @@ async function joinToChannel() {
         peer_hand_status: myHandStatus,
         peer_rec_status: isRecScreenStream,
         peer_privacy_status: isVideoPrivacyActive,
-        peer_location: [0,0]
+        peer_location: myLocation
     });
 }
 
@@ -1234,6 +1235,7 @@ async function handleAddPeer(config) {
 
     await wbUpdate();
     playSound('addPeer');
+    UpdateRoomInfo();
 }
 
 /**
@@ -1537,6 +1539,7 @@ function handleRemovePeer(config) {
     }
 
     playSound('removePeer');
+    UpdateRoomInfo();
 
     console.log('ALL PEERS', allPeers);
 }
@@ -1817,7 +1820,7 @@ async function setupLocalMedia() {
     };
 
     let stream = null;
-
+    UpdateRoomInfo(1);
     try {
         stream = await navigator.mediaDevices.getUserMedia(constraints);
         if (stream) {
@@ -1968,6 +1971,12 @@ async function loadLocalMedia(stream) {
 
     myVideoWrap.className = 'Camera';
     myVideoWrap.setAttribute('id', myPeerId + '_videoWrap');
+
+    RandomLocation();
+    myVideoWrap.style.left = myLocation[0]+ 'px';
+    myVideoWrap.style.top = myLocation[1]+ 'px';
+    //await emitPeerStatus('location', [randomLeft,randomTop]);
+    
 
     // add elements to video wrap div
     myVideoWrap.appendChild(myVideoNavBar);
@@ -2704,9 +2713,8 @@ function handleVideoPinUnpin(elemId, pnId, camId, peerId, isScreen = false) {
                     videoPlayer.style.objectFit = 'contain';
                 }
                 cam.className = 'Camera';
-                cam.style.width = '80%';
-                cam.style.height = '50%';
-                cam.style.top = '30%'
+                cam.style.top = screen.height / 2 + 'px';
+                cam.style.left = screen.width / 2 + 'px';
                 //toggleVideoPin(pinVideoPositionSelect.value);
                 videoMediaContainer.appendChild(cam);
                 myVideo.style.display = 'inline';
@@ -2732,11 +2740,13 @@ function handleVideoPinUnpin(elemId, pnId, camId, peerId, isScreen = false) {
                 cam.className = 'Camera';
                 cam.style.width = '0';
                 cam.style.height = '0';
+                cam.style.top = '900px';
+                cam.style.left =  '1600px';
                 videoMediaContainer.appendChild(cam);
                 
                 setColor(btnPn, 'white');
             }
-            adaptAspectRatio();
+            //adaptAspectRatio();
         });
     }
 }
@@ -4110,6 +4120,7 @@ async function toggleScreenSharing() {
                 setMyVideoStatusTrue();
                 emitPeersAction('screenStart');
             } else {
+                setMyVideoStatus(false);
                 //useVideo= false;
                 //videoBtn.click();
                 emitPeersAction('screenStop');
@@ -4117,6 +4128,7 @@ async function toggleScreenSharing() {
             }
             
             myScreenStatus = isScreenStreaming;
+            
             await emitPeerStatus('screen', myScreenStatus);
             await stopLocalVideoTrack();
             await refreshMyLocalStream(screenMediaPromise);
@@ -5659,7 +5671,7 @@ function handleScreenStart(peer_id) {
         setTippy(remoteVideoStatusBtn, 'Participant screen share is on', 'bottom');
     }
     if (remoteVideoStream) {
-        getId(peer_id + '_pinUnpin').click();
+        //getId(peer_id + '_pinUnpin').click();
         remoteVideoStream.style.objectFit = 'contain';
         remoteVideoStream.style.name = peer_id + '_typeScreen';
     }
@@ -5675,6 +5687,11 @@ function handleScreenStart(peer_id) {
  */
 function handleScreenStop(peer_id, peer_use_video) {
     let remoteVideoStream = getId(peer_id + '_video');
+    remoteVideoStream.classList.remove('videoDefault');
+    let remoteCam = getId(peer_id + '_videoWrap');
+    remoteCam.style.top = '900px';
+    remoteCam.style.left =  '1600px';
+
     let remoteVideoAvatarImage = getId(peer_id + '_avatar');
     let remoteVideoStatusBtn = getId(peer_id + '_videoStatus');
     if (remoteVideoStatusBtn) {
@@ -5683,11 +5700,10 @@ function handleScreenStop(peer_id, peer_use_video) {
     }
     if (remoteVideoStream) {
         if (isVideoPinned) getId(peer_id + '_pinUnpin').click();
-        remoteVideoStream.style.objectFit = 'var(--video-object-fit)';
-        remoteVideoStream.style.name = peer_id + '_typeCam';
+        
         adaptAspectRatio();
     }
-    if (remoteVideoAvatarImage && remoteVideoStream && !peer_use_video) {
+    if (remoteVideoAvatarImage && remoteVideoStream) {
         remoteVideoAvatarImage.style.display = 'block';
         remoteVideoStream.srcObject.getVideoTracks().forEach((track) => {
             track.enabled = false;
@@ -7389,7 +7405,9 @@ let isAlreadyMoving = false;
         return;
     }
     console.log('Moving enabled!');
-    
+    let dot = getId(myPeerId + '_soundCircle');
+    let topValue = 0;
+    let leftValue = 0;
 
     let pos3 = 0,
         pos4 = 0;
@@ -7415,7 +7433,7 @@ let isAlreadyMoving = false;
     
 
     function mobileElementDrag(e) {
-        
+        isAlreadyMoving = true;
         // calculate the new cursor position:
         //pos1 = pos3 - e.touches[0].clientX;
         //pos2 = pos4 - e.touches[0].clientY;
@@ -7423,8 +7441,8 @@ let isAlreadyMoving = false;
         pos4 = e.touches[0].clientY;
 
         // set the element's new position:
-        let topValue = pos4 - 60;
-        let leftValue =  pos3 - 60;
+        topValue = pos4 - 60;
+        leftValue =  pos3 - 60;
        
         let elemTop = topValue + 'px';
         let elemLeft = leftValue + 'px';
@@ -7442,49 +7460,84 @@ let isAlreadyMoving = false;
 
     function mobileCloseDragElement() {
         // stop moving when mouse button is released:
+        emitPeerStatus('location', [leftValue,topValue]);
+        myLocation[0] = leftValue;
+        myLocation[1] = topValue;
+        dot.style.display = "none";
         document.ontouchend = null;
         document.ontouchmove = null;
     }
 }
 
 function ScrollToCenter(){
-    document.getElementById('center-location').scrollIntoView({  block: "center", inline: "center" });
+    getId('center-location').scrollIntoView({  block: "center", inline: "center" });
+
     if(isMobileDevice){
-        getId("stickyButtonsBar").style.left = '30%';
-        let zoomButtons =  getId("stickyZoomButtons");
-        zoomButtons.style.left = '85%';
-        zoomButtons.style.top = '70%';
+        getId("myScreenShareBtnCustom").style.display = 'none';
         
     }
     
 }
 
+function RandomLocation() {
+    let randomLeft = Math.floor(Math.random() * 230) + 1;
+    let randomTop = Math.floor(Math.random() * 230) + 1;
+    if(randomLeft % 2 == 0) myLocation[0] = 1600 - randomLeft;
+    else {myLocation[0] = 1600 + randomLeft;}
+
+    if(randomTop % 2 == 0) myLocation[1] = 900 - randomTop;
+    else {myLocation[1] = 900 + randomTop}
+    
+    return true;
+  }
+
+function UpdateRoomInfo(force=null){
+    let length = '<i class="fas fa-user"> '+ Object.keys(allPeers).length;
+    if(force !=null) length = '<i class="fas fa-user"> '+ force;
+    getId('roomName').textContent = roomId;
+    getId('roomPeerNumber').innerHTML = length;
+    getId('stickyRoomInfoBar').style.display = "block";
+}
+
 let initial_zoom = 100;
 
 function ScaleBody(zoomChange){
-  
+    var scaleRate = 20;
     switch(zoomChange){
         case "out" :
-                if(initial_zoom > 40)
-                    if(screen.width > 1280 && initial_zoom <= 100) return;
-                    initial_zoom -=30;
+            let scale = (initial_zoom - scaleRate) / 100;
+            var canZoom = CheckZoomInOrOut(scale);
+            if (canZoom)
+                initial_zoom -= scaleRate;
+                
             break;
         case "in":
-            if(initial_zoom <180)
-                initial_zoom +=40;
+            let scaleIn = (initial_zoom + scaleRate) / 100;
+            var canZoom = CheckZoomInOrOut(scaleIn);
+            if (canZoom)
+                initial_zoom += scaleRate;
             break;
         case "init":
             initial_zoom = 100;
+            break;
     }
 
   let myVideoContainer = getId("videoMediaContainer");
   myVideoContainer.style.transformOrigin="top left";
   myVideoContainer.style.transform="scale("+initial_zoom+"%)";
-  getId(myPeerId + "_avatar").scrollIntoView({  block: "center", inline: "center" });
+  
+}
+
+function CheckZoomInOrOut(scale){
+    var screenHeight = screen.height;
+    var screenWidth = screen.width;
+    if(scale * 1800 <   screenHeight || scale * 3200 < screenWidth) return false;
+
+    return true;
 }
 
 function ScrollToMe(){
-    getId(myPeerId + "_avatar").scrollIntoView({  block: "center", inline: "center" });
+    getId(myPeerId + "_video").scrollIntoView({  block: "center", inline: "center" });
 }
 
 function MyVideoButtonClick(e){
@@ -7510,6 +7563,21 @@ function MyAudioButtonClick(e){
         e.firstChild.classList.remove("fa-microphone-slash");
     }
 }
+
+
+function MyScreenShareButtonClick(e){
+    getId('screenShareBtn').click();
+    if(!isScreenStreaming){
+        e.firstChild.classList.remove("fa-desktop");
+        e.firstChild.classList.add("fa-stop-circle");
+    }
+    else{
+        e.firstChild.classList.add("fa-desktop");
+        e.firstChild.classList.remove("fa-stop-circle");
+    }
+}
+
+
 
 
 
