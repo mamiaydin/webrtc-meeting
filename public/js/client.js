@@ -7681,8 +7681,9 @@ function handlePeerVolume(data) {
 
     //assign remote volume level
     remoteAudio.value = 100 * calculateVolume;
-    remoteVideo.volume = 1; // | 0 means convert double to int
-
+    let twoDecimalVolume  = Math.round((calculateVolume + Number.EPSILON) * 100) / 100;
+    remoteVideo.volume = twoDecimalVolume;
+    
     if(!peerCameraElement.classList.contains('speaking')){
         peerCameraElement.classList.add('speaking');
     }
