@@ -7194,10 +7194,9 @@ function leaveRoom() {
     
     Swal.fire({
         allowOutsideClick: false,
-        allowEscapeKey: false,
+        allowEscapeKey: true,
         showDenyButton: true,
         background: swalBackground,
-        imageUrl: imgFeedback,
         title: 'Leave Room?',
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
@@ -7493,8 +7492,8 @@ function RandomLocation() {
 
 function UpdateRoomInfo(force=null){
     let length = '<i class="fas fa-user"> '+ Object.keys(allPeers).length;
-    if(force !=null) length = '<i class="fas fa-user"> '+ force;
-    getId('roomName').textContent = roomId;
+    if(force !=null) length = '<i class="fas fa-user"> </i>  '+ force;
+    getId('roomName').innerHTML = '<i class="fa fa-bars"></i>  '+roomId;
     getId('roomPeerNumber').innerHTML = length;
     getId('stickyRoomInfoBar').style.display = "block";
 }
@@ -7525,6 +7524,7 @@ function ScaleBody(zoomChange){
   let myVideoContainer = getId("videoMediaContainer");
   myVideoContainer.style.transformOrigin="top left";
   myVideoContainer.style.transform="scale("+initial_zoom+"%)";
+  ScrollToMe();
   
 }
 
@@ -7671,56 +7671,58 @@ function bytesToSize(bytes) {
  * @param {object} data peer audio
  */
 function handlePeerVolume(data) {
-    let myCameraElement= getId(myPeerId + '_videoWrap');
     let peerCameraElement= getId(data.peer_id + '_videoWrap');
     var remoteAudio = getId(data.peer_id+ '_audioVolume');
     var remoteVideo = getId(data.peer_id+ '_video');
-    let distance = getDistanceBetweenElements(myCameraElement,peerCameraElement);
-    if(distance > 365){
-        remoteAudio.value = 0;
-        remoteVideo.volume = 0;
-    }
-    else{
-        remoteAudio.value = 100;
-        remoteVideo.volume = 1;
-    }
-    
+    let distance = getDistanceBetweenElements(myVideoWrap,peerCameraElement);
+    let calculateVolume = CalculateAudioVolume(distance); 
+    console.log("DISTANCE--"+distance);
+    console.log("VOLUME--"+calculateVolume);
 
-    let peer_id = data.peer_id;
-    let element = getId(peer_id + '_pitch_bar');
-    let remoteVideoWrap = getId(peer_id + '_videoWrap');
-    let volume = data.volume + 25; //for design purpose
-    if (!element) return;
-    if (volume > 50) {
-        element.style.backgroundColor = 'orange';
+    //assign remote volume level
+    remoteAudio.value = 100 * calculateVolume;
+    remoteVideo.volume = calculateVolume | 0; // | 0 means convert double to int
+
+    if(!peerCameraElement.classList.contains('speaking')){
+        peerCameraElement.classList.add('speaking');
     }
-    element.style.height = volume + '%';
-    remoteVideoWrap.classList.toggle('speaking');
     setTimeout(function () {
-        element.style.backgroundColor = '#19bb5c';
-        element.style.height = '0%';
-        remoteVideoWrap.classList.toggle('speaking');
-    }, 700);
+        peerCameraElement.classList.remove('speaking');
+    }, 1000);
+    
+    
 }
+
+function CalculateAudioVolume(distance){
+    //if distance close to 418 volume will decreasing, after that volume 0
+    let y = 1 - Math.pow((distance / 418),5);
+    if(y<0) return 0;
+    return y;
+}
+
+function testVolume(){
+    for(let i =400;i<=700;i++){
+        var a = CalculateAudioVolume(i);
+        console.log(a);
+    }
+}
+
 
 /**
  * Handle my audio volume
  * @param {object} data my audio
  */
 function handleMyVolume(data) {
-    let element = getId('myPitchBar');
-    let volume = data.volume + 25;
-    if (!element) return;
-    if (volume > 50) {
-        element.style.backgroundColor = 'orange';
-    }
-    element.style.height = volume + '%';
-    myVideoWrap.classList.toggle('speaking');
+    
+    if(!myVideoWrap.classList.contains('speaking'))
+        {
+            myVideoWrap.classList.add('speaking');
+        }
+  
+   
     setTimeout(function () {
-        element.style.backgroundColor = '#19bb5c';
-        element.style.height = '0%';
-        myVideoWrap.classList.toggle('speaking');
-    }, 700);
+        myVideoWrap.classList.remove('speaking');
+    }, 1000);
 }
 
 /**

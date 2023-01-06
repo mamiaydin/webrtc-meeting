@@ -36,6 +36,12 @@
     position: absolute;
     border-radius: 500px;
     animation: show 0.6s ease;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    border: 28px;
+    border-style: dashed;
+    border-color: white;
 }
 
 /*--------------------------------------------------------------
@@ -142,7 +148,6 @@ video {
     height: 800px;
     width: 800px;
     position: absolute;
-    transform: translate(-45%, -45%);
     background-color: rgba(234, 128, 225, 0.3);
     border-radius: 50%;
     display:none;
