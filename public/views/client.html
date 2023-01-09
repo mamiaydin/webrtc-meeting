@@ -471,12 +471,21 @@ access to use this app.
         </div>
         
         <div id="stickyRoomInfoBar" class="stickyRoomInfoBar">
-            <div id="roomName" class="room roomName"><i class="fa fa-bars"></i>TAIGA</div>
+            <div id="roomName" class="room" >TAIGA</div>
             <a id="roomPeerNumber" class="room roomPeerNumber"><i class="fas fa-user"></i>2</a>
         </div>
 
-        <div id="stickyRoomMenuBar" class="stickyRoomMenuBar">
-            <button class="btn" onclick="leaveRoom();"><i class="fa fa-sign-out"></i></button>
+
+
+        <div id="stickyRoomRightButtons" class="stickyRoomRightButtons">
+            <div id="roomMenuBar" class="roomMenuBar">
+                <div id="menuText" class="menuItem">Users</div>
+                <div id="userList">
+
+                </div>
+            </div>
+            <a id="openMenuButton"onclick="ShowMenu(this)" class="btn"><i class="fas fa-user"></i></a>
+            <button class="btn" onclick="leaveRoom()"><i class="fa fa-sign-out"></i></button>
         </div>
 
         <div id="stickyButtonsBar" class="stickyButtonsBar">

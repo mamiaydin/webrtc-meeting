@@ -1362,6 +1362,7 @@ async function handleRTCDataChannels(peer_id) {
                     try {
                         let dataMessage = JSON.parse(msg.data);
                         handleDataChannelMovingPeer(dataMessage);
+                        handlePeerVolume(dataMessage);
                     } catch (err) {
                         console.error('moving_peer_channel', err);
                     }
@@ -7305,7 +7306,7 @@ let isAlreadyMoving = false;
  */
  function dragVideoElement(elmnt, dragObj) {
     if(isMobileDevice || isIPadDevice || isTabletDevice){
-        mobileDragVideoElement(elmnt,dragObj);
+        //mobileDragVideoElement(elmnt,dragObj);
         return;
     }
 
@@ -7422,8 +7423,9 @@ let isAlreadyMoving = false;
 
     function mobileDragMouseDown(e) {
         // get the mouse cursor position at startup:
-        pos3 = e.touches[0].clientX;
-        pos4 = e.touches[0].clientY;
+        var touchLocation = e.targetTouches[0];
+        pos3 = touchLocation.pageX;
+        pos4 = touchLocation.pageY;
         document.ontouchend = mobileCloseDragElement;
         // call a function whenever the cursor moves:
         document.ontouchmove = mobileElementDrag;
@@ -7436,12 +7438,11 @@ let isAlreadyMoving = false;
         // calculate the new cursor position:
         //pos1 = pos3 - e.touches[0].clientX;
         //pos2 = pos4 - e.touches[0].clientY;
-        pos3 = e.touches[0].clientX;
-        pos4 = e.touches[0].clientY;
 
         // set the element's new position:
-        topValue = pos4 - 60;
-        leftValue =  pos3 - 60;
+        leftValue =  pos3 - 250;
+        topValue = pos4 -250;
+        
        
         let elemTop = topValue + 'px';
         let elemLeft = leftValue + 'px';
@@ -7459,6 +7460,7 @@ let isAlreadyMoving = false;
 
     function mobileCloseDragElement() {
         // stop moving when mouse button is released:
+        isAlreadyMoving = false;
         emitPeerStatus('location', [leftValue,topValue]);
         myLocation[0] = leftValue;
         myLocation[1] = topValue;
@@ -7473,6 +7475,7 @@ function ScrollToCenter(){
 
     if(isMobileDevice){
         getId("myScreenShareBtnCustom").style.display = 'none';
+        getId("openMenuButton").style.display = 'none';
         
     }
     
@@ -7493,9 +7496,30 @@ function RandomLocation() {
 function UpdateRoomInfo(force=null){
     let length = '<i class="fas fa-user"> '+ Object.keys(allPeers).length;
     if(force !=null) length = '<i class="fas fa-user"> </i>  '+ force;
-    getId('roomName').innerHTML = '<i class="fa fa-bars"></i>  '+roomId;
+    getId('roomName').innerHTML =roomId;
     getId('roomPeerNumber').innerHTML = length;
     getId('stickyRoomInfoBar').style.display = "block";
+
+    var hey = '';
+    if(Object.keys(allPeers).length>1){
+        for (const [key, value] of Object.entries(allPeers)) {
+            
+            let getAvatarSrc = '';
+            if(key == myPeerId){
+                getAvatarSrc = myVideoAvatarImage.src;
+            }
+            else{
+                getAvatarSrc = getId(key + '_avatar');
+            }
+            
+            hey+='<div class="roomUser">'+value['peer_name']+'</div>'
+          }
+    }
+    else{
+
+    }
+   
+    getId('userList').innerHTML=hey;
 }
 
 let initial_zoom = 100;
@@ -7575,6 +7599,13 @@ function MyScreenShareButtonClick(e){
         e.firstChild.classList.add("fa-desktop");
         e.firstChild.classList.remove("fa-stop-circle");
     }
+}
+
+function ShowMenu(e){
+    var menu = getId('roomMenuBar');
+    menu.classList.toggle('displayBlock')
+    
+    e.classList.toggle('toggleMenuActive');
 }
 
 
