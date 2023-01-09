@@ -7516,7 +7516,7 @@ function UpdateRoomInfo(force=null){
           }
     }
     else{
-
+        hey+='<div class="roomUser">'+window.localStorage.peer_name+'</div>'
     }
    
     getId('userList').innerHTML=hey;
