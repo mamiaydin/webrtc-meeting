@@ -472,19 +472,20 @@ access to use this app.
         
         <div id="stickyRoomInfoBar" class="stickyRoomInfoBar">
             <div id="roomName" class="room" >TAIGA</div>
-            <a id="roomPeerNumber" class="room roomPeerNumber"><i class="fas fa-user"></i>2</a>
+            <div id="roomPeerNumber" class="room roomPeerNumber"><i class="fas fa-user"></i>2</div>
         </div>
 
 
-
-        <div id="stickyRoomRightButtons" class="stickyRoomRightButtons">
-            <div id="roomMenuBar" class="roomMenuBar">
-                <div id="menuText" class="menuItem">Users</div>
-                <div id="userList">
-                </div>
+        <div id="roomMenuBar" class="roomMenuBar displayBlock">
+            <div id="userList" class="userList">
             </div>
-            <a id="openMenuButton"onclick="ShowMenu(this)" class="btn"><i class="fas fa-user"></i></a>
+        </div>
+        <div id="stickyRoomRightButtons" class="stickyRoomRightButtons displayBlock">
+            <button id="openMenuButton"onclick="ShowMenu(this)" class="btn toggleMenuActive">
+                <i class="fa fa-user fa-hover-hidden"></i><i class="fa fa-times fa-hover-show"></i></button>
             <button class="btn" onclick="leaveRoom()"><i class="fa fa-sign-out"></i></button>
+            
+            
         </div>
 
         <div id="stickyButtonsBar" class="stickyButtonsBar">
@@ -494,10 +495,10 @@ access to use this app.
             <button id="myVideoBtnCustom" class="btn" onclick="MyVideoButtonClick(this)"><i class="fa fa-video-camera"></i></button>
             
         </div>
-        <div id="stickyZoomButtons" class="stickyZoomButtons">
-            <a id="btnZoomIn" onclick="ScaleBody('in')" class="btn zoom"><i class="fas fa-search-plus"></i></a>
-            <a id="btnZoomOut" onclick="ScaleBody('out')" class="btn zoom-out"><i class="fas fa-search-minus"></i></a>
-            <a id="btnZoomInit" onclick="ScaleBody('init')" class="btn zoom-init"><i class="fas fa-recycle"></i></a>
+        <div id="stickyZoomButtons" class="stickyZoomButtons toggleMenuActiveZoomButtons">
+            <button id="btnZoomIn" onclick="ScaleBody('in')" class="btn zoom"><i class="fas fa-search-plus"></i></button>
+            <button id="btnZoomOut" onclick="ScaleBody('out')" class="btn zoom-out"><i class="fas fa-search-minus"></i></button>
+            <button id="btnZoomInit" onclick="ScaleBody('init')" class="btn zoom-init"><i class="fas fa-recycle"></i></button>
         </div>
         <!-- End Video container -->
 

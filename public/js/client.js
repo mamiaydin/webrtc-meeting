@@ -22,6 +22,7 @@
 
 'use strict'; // https://www.w3schools.com/js/js_strict.asp
 
+let isAlreadyMoving = true;
 const isHttps = false; // must be the same on server.js
 const signalingServer = getSignalingServer();
 const roomId = getRoomId();
@@ -1056,6 +1057,7 @@ async function whoAreYou() {
         },
     }).then(() => {
         playSound('addPeer');
+        isAlreadyMoving= false; 
     });
 
 
@@ -1067,6 +1069,8 @@ async function whoAreYou() {
 
     setTippy(initAudioBtn, 'Stop the audio', 'top');
     setTippy(initVideoBtn, 'Stop the video', 'top');
+
+    
 }
 
 /**
@@ -2043,7 +2047,7 @@ function AddDraggableVideoAndAvatarElements(){
             dragVideoElement(cam,dragObj);
             dragVideoElement(cam,dragObjAvatar);
         }
-     }   
+     }  
      //mamiiiii
 }
 
@@ -2123,7 +2127,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id) {
 
     // remote peer name element
     remotePeerName.setAttribute('id', peer_id + '_name');
-    remotePeerName.className = 'videoPeerName';
+    remotePeerName.className = 'videoPeerName dispayNoneImportant';
 
     const peerVideoText = document.createTextNode(peer_name);
     remotePeerName.appendChild(peerVideoText);
@@ -2192,7 +2196,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id) {
 
     // my video avatar image
     remoteVideoAvatarImage.setAttribute('id', peer_id + '_avatar');
-    remoteVideoAvatarImage.className = 'videoAvatarImage';
+    remoteVideoAvatarImage.className = 'videoAvatarImage clickInfo';
 
     // remote pitch meter
     remotePitchMeter.setAttribute('id', peer_id + '_pitch');
@@ -2258,7 +2262,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id) {
     remoteVideoWrap.appendChild(remoteVideoAvatarImage);
     remoteVideoWrap.appendChild(remotePitchMeter);
     remoteVideoWrap.appendChild(remoteMedia);
-    //remoteVideoWrap.appendChild(remotePeerName);
+    remoteVideoWrap.appendChild(remotePeerName);
 
     // need later on disconnect or remove peers
     peerMediaElements[peer_id] = remoteVideoWrap;
@@ -2318,6 +2322,9 @@ async function loadRemoteMediaStream(stream, peers, peer_id) {
     handlePeerVideoBtn(peer_id);
 
     AddDraggableVideoAndAvatarElements();
+
+    //here clickInfo 
+    AddClickEventsToRemoteAvatarImages();
 
     if (buttons.remote.showPrivateMessageBtn) {
         // handle remote private messages
@@ -2445,7 +2452,7 @@ function setPeerAvatarImgName(videoAvatarImageId, peerName, useAvatar) {
     if (useAvatar) {
         // default img size 64 max 512
         let avatarImgSize = isMobileDevice ? 128 : 256;
-        avatarSrc = avatarApiUrl + '?name=' + peerName + '&size=' + avatarImgSize + '&background=random&rounded=true';
+        avatarSrc = avatarApiUrl + '?name=' + peerName + '&size=' + avatarImgSize + '&background=random&color=fffff&length=1&rounded=true';
         videoAvatarImageElement.setAttribute(
             'src',
             avatarSrc,
@@ -2465,7 +2472,7 @@ function setPeerAvatarImgName(videoAvatarImageId, peerName, useAvatar) {
  * @param {string} peerName me or peer name
  */
 function setPeerChatAvatarImgName(avatar, peerName) {
-    let avatarImg = avatarApiUrl + '?name=' + peerName + '&size=32' + '&background=random&rounded=true';
+    let avatarImg = avatarApiUrl + '?name=' + peerName + '&size=32' + '&background=random&color=fffff&length=1&rounded=true';
 
     switch (avatar) {
         case 'left':
@@ -4790,7 +4797,7 @@ function handleSpeechTranscript(config) {
 
     let time_stamp = getFormatDate(new Date());
     let name = config.peer_name;
-    let avatar_image = avatarApiUrl + '?name=' + name + '&size=32' + '&background=random&rounded=true';
+    let avatar_image = avatarApiUrl + '?name=' + name + '&size=32' + '&background=random&color=fffff&length=1&rounded=true';
     let transcipt = config.text_data;
 
     console.log('Handle speech transcript', config);
@@ -4956,7 +4963,7 @@ async function msgerAddPeers(peers) {
             if (!exsistMsgerPrivateDiv) {
                 let msgerPrivateDiv = `
                 <div id="${peer_id}_pMsgDiv" class="msger-peer-inputarea">
-                    <img id="${peer_id}_pMsgAvatar" src='${avatarApiUrl}?name=${peer_name}&size=24&background=random&rounded=true'> 
+                    <img id="${peer_id}_pMsgAvatar" src='${avatarApiUrl}?name=${peer_name}&size=24&background=random&color=fffff&length=1&rounded=true'> 
                     <textarea
                         rows="1"
                         cols="1"
@@ -5330,7 +5337,7 @@ function handlePeerName(config) {
     let msgerPeerAvatar = getId(peer_id + '_pMsgAvatar');
     if (msgerPeerName) msgerPeerName.value = peer_name;
     if (msgerPeerAvatar)
-        msgerPeerAvatar.src = `${avatarApiUrl}?name=${peer_name}&size=24&background=random&rounded=true`;
+        msgerPeerAvatar.src = `${avatarApiUrl}?name=${peer_name}&size=24&background=random&color=fffff&length=1&rounded=true`;
     // refresh also peer video avatar name
     setPeerAvatarImgName(peer_id + '_avatar', peer_name, useAvatarApi);
 }
@@ -7297,7 +7304,7 @@ function dragElement(elmnt, dragObj) {
     }
 }
 
-let isAlreadyMoving = false;
+
 
 /**
  * Make Obj draggable: https://www.w3schools.com/howto/howto_js_draggable.asp
@@ -7475,7 +7482,8 @@ function ScrollToCenter(){
 
     if(isMobileDevice){
         getId("myScreenShareBtnCustom").style.display = 'none';
-        getId("openMenuButton").style.display = 'none';
+        getId("roomMenuBar").classList.toggle('displayBlock');
+        getId("stickyRoomRightButtons").style.display = 'none';
         
     }
     
@@ -7498,12 +7506,14 @@ function UpdateRoomInfo(force=null){
     if(force !=null) length = '<i class="fas fa-user"> </i>  '+ force;
     getId('roomName').innerHTML =roomId;
     getId('roomPeerNumber').innerHTML = length;
-    getId('stickyRoomInfoBar').style.display = "block";
+    getId('stickyRoomInfoBar').style.display = "flex";
 
     var hey = '';
+    hey+='<div class="roomUser">'+window.localStorage.peer_name+' (me)</div>'
     if(Object.keys(allPeers).length>1){
         for (const [key, value] of Object.entries(allPeers)) {
-            
+            if(key == myPeerId) continue;
+
             let getAvatarSrc = '';
             if(key == myPeerId){
                 getAvatarSrc = myVideoAvatarImage.src;
@@ -7515,10 +7525,6 @@ function UpdateRoomInfo(force=null){
             hey+='<div class="roomUser">'+value['peer_name']+'</div>'
           }
     }
-    else{
-        hey+='<div class="roomUser">'+window.localStorage.peer_name+'</div>'
-    }
-   
     getId('userList').innerHTML=hey;
 }
 
@@ -7602,14 +7608,29 @@ function MyScreenShareButtonClick(e){
 }
 
 function ShowMenu(e){
-    var menu = getId('roomMenuBar');
-    menu.classList.toggle('displayBlock')
+    getId('roomMenuBar').classList.toggle('displayBlock')
     
     e.classList.toggle('toggleMenuActive');
+    
+    getId('stickyZoomButtons').classList.toggle('toggleMenuActiveZoomButtons');
+
 }
 
 
+function AddClickEventsToRemoteAvatarImages(){
+    
 
+    var elements = document.getElementsByClassName("clickInfo");
+
+    var ShowPeerName = function() {
+        var id = this.getAttribute("id").replace("_avatar","_name");
+        getId(id).classList.toggle('dispayNoneImportant');
+    };
+
+    for (var i = 0; i < elements.length; i++) {
+        elements[i].addEventListener('click', ShowPeerName,false);
+    }
+}
 
 
 function dragBodyElement(){
@@ -7707,8 +7728,6 @@ function handlePeerVolume(data) {
     var remoteVideo = getId(data.peer_id+ '_video');
     let distance = getDistanceBetweenElements(myVideoWrap,peerCameraElement);
     let calculateVolume = CalculateAudioVolume(distance); 
-    console.log("DISTANCE--"+distance);
-    console.log("VOLUME--"+calculateVolume);
 
     //assign remote volume level
     remoteAudio.value = 100 * calculateVolume;
