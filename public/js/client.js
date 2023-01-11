@@ -227,7 +227,7 @@ let audioContext;
 let mediaStreamSource;
 let meter;
 let isScreenStreaming = false;
-let showChatOnMessage = true;
+let showChatOnMessage = false;
 let isChatRoomVisible = false;
 let isCaptionBoxVisible = false;
 let isChatEmojiVisible = false;
@@ -453,7 +453,7 @@ function getHtmlElementsById() {
     msgerCPBtn = getId('msgerCPBtn');
     msgerClean = getId('msgerClean');
     //msgerSaveBtn = getId('msgerSaveBtn');
-    msgerClose = getId('msgerClose');
+    //msgerClose = getId('msgerClose');
     msgerChat = getId('msgerChat');
     msgerEmojiBtn = getId('msgerEmojiBtn');
     //msgerMarkdownBtn = getId('msgerMarkdownBtn');
@@ -585,7 +585,7 @@ function setButtonsToolTip() {
     setTippy(msgerCPBtn, 'Private messages', 'top');
     setTippy(msgerClean, 'Clean the messages', 'top');
     //setTippy(msgerSaveBtn, 'Save the messages', 'top');
-    setTippy(msgerClose, 'Close', 'right');
+    //setTippy(msgerClose, 'Close', 'right');
     setTippy(msgerEmojiBtn, 'Emoji', 'top');
     //setTippy(msgerMarkdownBtn, 'Markdown', 'top');
     setTippy(msgerShareFileBtn, 'Share file', 'top');
@@ -1841,9 +1841,7 @@ async function setupLocalMedia() {
  * @param {object} stream media stream audio - video
  */
 async function loadLocalMedia(stream) {
-    console.log('10. Access granted to audio - video device');
-    // hide loading div
-    getId('loadingDiv').style.display = 'none';        
+    console.log('10. Access granted to audio - video device');      
 
     localMediaStream = stream;
 
@@ -3050,7 +3048,7 @@ function setChatRoomBtn() {
     // open hide chat room
     chatRoomBtn.addEventListener('click', (e) => {
         if (!isChatRoomVisible) {
-            showChatRoomDraggable();
+            showChatRoomDraggable(e);
         } else {
             hideChatRoomAndEmojiPicker();
             e.target.className = className.chatOn;
@@ -3098,10 +3096,10 @@ function setChatRoomBtn() {
     // });
 
     // close chat room - show left button and status menu if hide
-    msgerClose.addEventListener('click', (e) => {
-        hideChatRoomAndEmojiPicker();
-        showButtonsBarAndMenu();
-    });
+    // msgerClose.addEventListener('click', (e) => {
+    //     hideChatRoomAndEmojiPicker();
+    //     showButtonsBarAndMenu();
+    // });
 
     // Markdown on-off
     // msgerMarkdownBtn.addEventListener('click', (e) => {
@@ -4559,17 +4557,25 @@ function setChatRoomAndCaptionForMobile() {
  * Show msger draggable on center screen position
  */
 function showChatRoomDraggable() {
-    playSound('newMessage');
-    if (isMobileDevice) {
-        buttonsBar.style.display = 'none';
-        isButtonsVisible = false;
+    
+    if(isChatRoomVisible){
+        hideChatRoomAndEmojiPicker();
+        showButtonsBarAndMenu();
+        return;
     }
+
     chatRoomBtn.className = className.chatOff;
     msgerDraggable.style.top = '0';
     msgerDraggable.style.right = '0';
     msgerDraggable.style.display = 'flex';
     isChatRoomVisible = true;
-    setTippy(chatRoomBtn, 'Close the chat', 'right-start');
+    
+
+    
+}
+function ShowMenu(e){
+    e.classList.toggle('toggleMenuActive');
+    showChatRoomDraggable();
 }
 
 /**
@@ -4859,7 +4865,6 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null) {
                 <div class="msg-info-time">${time}</div>
             </div>
             <div id="${chatMessagesId}" class="msg-text">${msg}
-                <hr/>
     `;
     // add btn direct reply to private message
     if (privateMsg && msgId != null && msgId != myPeerId) {
@@ -4879,16 +4884,16 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null) {
     //                 onclick="deleteMessage('msg-${chatMessagesId}')"
     //             ></button>
     
-    msgHTML += `
-                <button
-                id="msg-copy-${chatMessagesId}"
-                class="${className.copy}" 
-                style="color:#fff; border:none; background:transparent;"
-                onclick="copyToClipboard('${chatMessagesId}')"></button>
-            </div>
-        </div>
-	</div>
-    `;
+    // msgHTML += `
+    //             <button
+    //             id="msg-copy-${chatMessagesId}"
+    //             class="${className.copy}" 
+    //             style="color:#fff; border:none; background:transparent;"
+    //             onclick="copyToClipboard('${chatMessagesId}')"></button>
+    //         </div>
+    //     </div>
+	// </div>
+    // `;
     msgerChat.insertAdjacentHTML('beforeend', msgHTML);
     msgerChat.scrollTop += 500;
     setTippy(getId('msg-delete-' + chatMessagesId), 'Delete', 'top');
@@ -7136,7 +7141,6 @@ function handleKickedOut(config) {
         timer: 10000,
         timerProgressBar: true,
         didOpen: () => {
-            Swal.showLoading();
             timerInterval = setInterval(() => {
                 const content = Swal.getHtmlContainer();
                 if (content) {
@@ -7481,11 +7485,11 @@ function ScrollToCenter(){
     if(isMobileDevice){
         getId("myScreenShareBtnCustom").style.display = 'none';
         //getId("roomMenuBar").classList.toggle('displayBlock');
-        getId("stickyRoomRightButtons").style.display = 'none';
-        var r = document.querySelector(':root');
-        r.style.setProperty('--msger-width','100%')
+        
     }
-    
+    //TODO
+    // var r = document.querySelector(':root');
+    //     r.style.setProperty('--msger-width','100%')
 }
 
 function RandomLocation() {
@@ -7606,16 +7610,7 @@ function MyScreenShareButtonClick(e){
     }
 }
 
-function ShowMenu(e){
-    showChatRoomDraggable();
-    return;
-    getId('roomMenuBar').classList.toggle('displayBlock')
-    
-    e.classList.toggle('toggleMenuActive');
-    
-    getId('stickyZoomButtons').classList.toggle('toggleMenuActiveZoomButtons');
 
-}
 
 
 function AddClickEventsToRemoteAvatarImages(){

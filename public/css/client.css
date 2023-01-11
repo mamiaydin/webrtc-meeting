@@ -244,6 +244,7 @@ body {
 --------------------------------------------------------------*/
 
 .msger-header {
+    height: 6%;
     display: flex;
     justify-content: space-between;
     padding: 10px;
@@ -259,6 +260,9 @@ body {
     color: #666;
 }
 
+#msgerClose{
+    right: 0;
+}
 .msger-header-title button,
 .msger-header-options button {
     padding: 5px;
@@ -1351,7 +1355,7 @@ button {
     position: fixed;
     top: 2%;
     right: 2%; 
-    z-index: 10;
+    z-index: 15;
     display: block;
   }
 
