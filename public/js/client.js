@@ -449,19 +449,19 @@ function getHtmlElementsById() {
     // chat Room elements
     msgerDraggable = getId('msgerDraggable');
     msgerHeader = getId('msgerHeader');
-    msgerTheme = getId('msgerTheme');
+    //msgerTheme = getId('msgerTheme');
     msgerCPBtn = getId('msgerCPBtn');
     msgerClean = getId('msgerClean');
-    msgerSaveBtn = getId('msgerSaveBtn');
+    //msgerSaveBtn = getId('msgerSaveBtn');
     msgerClose = getId('msgerClose');
     msgerChat = getId('msgerChat');
     msgerEmojiBtn = getId('msgerEmojiBtn');
-    msgerMarkdownBtn = getId('msgerMarkdownBtn');
+    //msgerMarkdownBtn = getId('msgerMarkdownBtn');
     msgerShareFileBtn = getId('msgerShareFileBtn');
     msgerInput = getId('msgerInput');
-    msgerCleanTextBtn = getId('msgerCleanTextBtn');
-    msgerPasteBtn = getId('msgerPasteBtn');
-    msgerShowChatOnMsg = getId('msgerShowChatOnMsg');
+    //msgerCleanTextBtn = getId('msgerCleanTextBtn');
+    //msgerPasteBtn = getId('msgerPasteBtn');
+    //msgerShowChatOnMsg = getId('msgerShowChatOnMsg');
     msgerSendBtn = getId('msgerSendBtn');
     // chat room connected peers
     msgerCP = getId('msgerCP');
@@ -581,17 +581,17 @@ function setButtonsToolTip() {
     setTippy(aboutBtn, 'About this project', 'right-start');
     setTippy(leaveRoomBtn, 'Leave this room', 'right-start');
     // chat room buttons
-    setTippy(msgerTheme, 'Ghost theme', 'top');
+    //setTippy(msgerTheme, 'Ghost theme', 'top');
     setTippy(msgerCPBtn, 'Private messages', 'top');
     setTippy(msgerClean, 'Clean the messages', 'top');
-    setTippy(msgerSaveBtn, 'Save the messages', 'top');
+    //setTippy(msgerSaveBtn, 'Save the messages', 'top');
     setTippy(msgerClose, 'Close', 'right');
     setTippy(msgerEmojiBtn, 'Emoji', 'top');
-    setTippy(msgerMarkdownBtn, 'Markdown', 'top');
+    //setTippy(msgerMarkdownBtn, 'Markdown', 'top');
     setTippy(msgerShareFileBtn, 'Share file', 'top');
-    setTippy(msgerCleanTextBtn, 'Clean', 'top');
-    setTippy(msgerPasteBtn, 'Paste', 'top');
-    setTippy(msgerShowChatOnMsg, "Show me when I'm receive a new message", 'top');
+    //setTippy(msgerCleanTextBtn, 'Clean', 'top');
+    //setTippy(msgerPasteBtn, 'Paste', 'top');
+    //setTippy(msgerShowChatOnMsg, "Show me when I'm receive a new message", 'top');
     setTippy(msgerSendBtn, 'Send', 'top');
     // chat participants buttons
     setTippy(msgerCPCloseBtn, 'Close', 'left');
@@ -942,10 +942,10 @@ function roomIsBusy() {
         showDenyButton: false,
         confirmButtonText: `OK`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -1000,11 +1000,11 @@ function handleButtonsRule() {
     elemDisplay(mySettingsBtn, buttons.main.showMySettingsBtn);
     elemDisplay(aboutBtn, buttons.main.showAboutBtn);
     // chat
-    elemDisplay(msgerSaveBtn, buttons.chat.showSaveMessageBtn);
-    elemDisplay(msgerMarkdownBtn, buttons.chat.showMarkDownBtn);
+    //elemDisplay(msgerSaveBtn, buttons.chat.showSaveMessageBtn);
+    //elemDisplay(msgerMarkdownBtn, buttons.chat.showMarkDownBtn);
     elemDisplay(msgerShareFileBtn, buttons.chat.showFileShareBtn);
     elemDisplay(msgerVideoUrlBtn, buttons.chat.showShareVideoAudioBtn);
-    elemDisplay(msgerCPBtn, buttons.chat.showParticipantsBtn);
+    //elemDisplay(msgerCPBtn, buttons.chat.showParticipantsBtn);
     // Settings
     elemDisplay(muteEveryoneBtn, buttons.settings.showMuteEveryoneBtn);
     elemDisplay(hideEveryoneBtn, buttons.settings.showHideEveryoneBtn);
@@ -1043,12 +1043,6 @@ async function whoAreYou() {
             <button id="initVideoBtn" class="${className.videoOn}" onclick="handleVideo(event, true)"></button>
         </div>`,
         confirmButtonText: `Join meeting`,
-        showClass: {
-            popup: 'animate__animated animate__fadeInDown',
-        },
-        hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
-        },
         inputValidator: (value) => {
             if (!value) return 'Please enter your name';
             myPeerName = value;
@@ -1156,10 +1150,10 @@ function welcomeUser() {
         denyButtonText: `Email invite`,
         cancelButtonText: `Close`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -1658,10 +1652,10 @@ async function initEnumerateDevices() {
             showDenyButton: false,
             confirmButtonText: `OK`,
             showClass: {
-                popup: 'animate__animated animate__fadeInDown',
+                popup: '',
             },
             hideClass: {
-                popup: 'animate__animated animate__fadeOutUp',
+                popup: '',
             },
         }).then((result) => {
             if (result.isConfirmed) {
@@ -1883,7 +1877,7 @@ async function loadLocalMedia(stream) {
 
     // my peer name
     myPeerName.setAttribute('id', 'myVideoParagraph');
-    myPeerName.className = 'videoPeerName';
+    myPeerName.className = 'videoPeerName dispayNoneImportant';
 
     // my hand status element
     myHandStatusIcon.setAttribute('id', 'myHandStatusIcon');
@@ -2068,10 +2062,10 @@ function checkShareScreen() {
             confirmButtonText: `Yes`,
             denyButtonText: `No`,
             showClass: {
-                popup: 'animate__animated animate__fadeInDown',
+                popup: '',
             },
             hideClass: {
-                popup: 'animate__animated animate__fadeOutUp',
+                popup: '',
             },
         }).then((result) => {
             if (result.isConfirmed) {
@@ -3051,7 +3045,7 @@ function setFullScreenBtn() {
  */
 function setChatRoomBtn() {
     // adapt chat room size for mobile
-    setChatRoomAndCaptionForMobile();
+    //setChatRoomAndCaptionForMobile();
 
     // open hide chat room
     chatRoomBtn.addEventListener('click', (e) => {
@@ -3064,15 +3058,15 @@ function setChatRoomBtn() {
     });
 
     // ghost theme + undo
-    msgerTheme.addEventListener('click', (e) => {
-        if (e.target.className == className.ghost) {
-            e.target.className = className.undo;
-            document.documentElement.style.setProperty('--msger-bg', 'rgba(0, 0, 0, 0.100)');
-        } else {
-            e.target.className = className.ghost;
-            document.documentElement.style.setProperty('--msger-bg', 'radial-gradient(#393939, #000000)');
-        }
-    });
+    // msgerTheme.addEventListener('click', (e) => {
+    //     if (e.target.className == className.ghost) {
+    //         e.target.className = className.undo;
+    //         document.documentElement.style.setProperty('--msger-bg', 'rgba(0, 0, 0, 0.100)');
+    //     } else {
+    //         e.target.className = className.ghost;
+    //         document.documentElement.style.setProperty('--msger-bg', 'radial-gradient(#393939, #000000)');
+    //     }
+    // });
 
     // show msger participants section
     msgerCPBtn.addEventListener('click', (e) => {
@@ -3096,12 +3090,12 @@ function setChatRoomBtn() {
     });
 
     // save chat messages to file
-    msgerSaveBtn.addEventListener('click', (e) => {
-        if (chatMessages.length != 0) {
-            return downloadChatMsgs();
-        }
-        userLog('info', 'No chat messages to save');
-    });
+    // msgerSaveBtn.addEventListener('click', (e) => {
+    //     if (chatMessages.length != 0) {
+    //         return downloadChatMsgs();
+    //     }
+    //     userLog('info', 'No chat messages to save');
+    // });
 
     // close chat room - show left button and status menu if hide
     msgerClose.addEventListener('click', (e) => {
@@ -3110,10 +3104,10 @@ function setChatRoomBtn() {
     });
 
     // Markdown on-off
-    msgerMarkdownBtn.addEventListener('click', (e) => {
-        isChatMarkdownOn = !isChatMarkdownOn;
-        setColor(msgerMarkdownBtn, isChatMarkdownOn ? 'lime' : 'white');
-    });
+    // msgerMarkdownBtn.addEventListener('click', (e) => {
+    //     isChatMarkdownOn = !isChatMarkdownOn;
+    //     setColor(msgerMarkdownBtn, isChatMarkdownOn ? 'lime' : 'white');
+    // });
 
     // share file from chat
     msgerShareFileBtn.addEventListener('click', (e) => {
@@ -3149,26 +3143,26 @@ function setChatRoomBtn() {
         checkLineBreaks();
     };
 
-    // clean input msg txt
-    msgerCleanTextBtn.addEventListener('click', (e) => {
-        cleanMessageInput();
-    });
+    // // clean input msg txt
+    // msgerCleanTextBtn.addEventListener('click', (e) => {
+    //     cleanMessageInput();
+    // });
 
     // paste to input msg txt
-    msgerPasteBtn.addEventListener('click', (e) => {
-        pasteToMessageInput();
-    });
+    // msgerPasteBtn.addEventListener('click', (e) => {
+    //     pasteToMessageInput();
+    // });
 
     // chat show on message
-    msgerShowChatOnMsg.addEventListener('change', (e) => {
-        playSound('click');
-        showChatOnMessage = e.currentTarget.checked;
-        if (showChatOnMessage) {
-            msgPopup('info', "Chat will be shown, when I'm receive a new message", 'top-end', 3000);
-        } else {
-            msgPopup('info', "Chat not will be shown, when I'm receive a new message", 'top-end', 3000);
-        }
-    });
+    // msgerShowChatOnMsg.addEventListener('change', (e) => {
+    //     playSound('click');
+    //     showChatOnMessage = e.currentTarget.checked;
+    //     if (showChatOnMessage) {
+    //         msgPopup('info', "Chat will be shown, when I'm receive a new message", 'top-end', 3000);
+    //     } else {
+    //         msgPopup('info', "Chat not will be shown, when I'm receive a new message", 'top-end', 3000);
+    //     }
+    // });
 
     // chat send msg
     msgerSendBtn.addEventListener('click', (e) => {
@@ -3934,10 +3928,10 @@ async function shareRoomUrl() {
             denyButtonText: `Email invite`,
             cancelButtonText: `Close`,
             showClass: {
-                popup: 'animate__animated animate__fadeInDown',
+                popup: '',
             },
             hideClass: {
-                popup: 'animate__animated animate__fadeOutUp',
+                popup: '',
             },
         }).then((result) => {
             if (result.isConfirmed) {
@@ -4571,8 +4565,8 @@ function showChatRoomDraggable() {
         isButtonsVisible = false;
     }
     chatRoomBtn.className = className.chatOff;
-    msgerDraggable.style.top = '50%';
-    msgerDraggable.style.left = isMobileDevice ? '50%' : '25%';
+    msgerDraggable.style.top = '0';
+    msgerDraggable.style.right = '0';
     msgerDraggable.style.display = 'flex';
     isChatRoomVisible = true;
     setTippy(chatRoomBtn, 'Close the chat', 'right-start');
@@ -4609,10 +4603,10 @@ function cleanMessages() {
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         // clean chat messages
@@ -4643,10 +4637,10 @@ function cleanCaptions() {
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         // clean chat messages
@@ -4877,19 +4871,20 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null) {
                     onclick="sendPrivateMsgToPeer('${myPeerId}','${from}')"
                 ></button>`;
     }
+    //delete button
+    // <button
+    //                 id="msg-delete-${chatMessagesId}"
+    //                 class="${className.trash}"
+    //                 style="color:#fff; border:none; background:transparent;"
+    //                 onclick="deleteMessage('msg-${chatMessagesId}')"
+    //             ></button>
+    
     msgHTML += `
                 <button
-                    id="msg-delete-${chatMessagesId}"
-                    class="${className.trash}"
-                    style="color:#fff; border:none; background:transparent;"
-                    onclick="deleteMessage('msg-${chatMessagesId}')"
-                ></button>
-                <button
-                    id="msg-copy-${chatMessagesId}"
-                    class="${className.copy}" 
-                    style="color:#fff; border:none; background:transparent;"
-                    onclick="copyToClipboard('${chatMessagesId}')"
-                ></button>
+                id="msg-copy-${chatMessagesId}"
+                class="${className.copy}" 
+                style="color:#fff; border:none; background:transparent;"
+                onclick="copyToClipboard('${chatMessagesId}')"></button>
             </div>
         </div>
 	</div>
@@ -4917,10 +4912,10 @@ function deleteMessage(id) {
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         // clean this message
@@ -5534,10 +5529,10 @@ function sendPrivateMsgToPeer(toPeerId, toPeerName) {
         showCancelButton: true,
         confirmButtonText: `Send`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.value) {
@@ -5796,10 +5791,10 @@ function disableAllPeers(element) {
         confirmButtonText: element == 'audio' ? `Mute` : `Hide`,
         denyButtonText: `Cancel`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -5839,10 +5834,10 @@ function disablePeer(peer_id, element) {
         confirmButtonText: element == 'audio' ? `Mute` : `Hide`,
         denyButtonText: `Cancel`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -5888,10 +5883,10 @@ function handleRoomAction(config, emit = false) {
                     confirmButtonText: `OK`,
                     denyButtonText: `Cancel`,
                     showClass: {
-                        popup: 'animate__animated animate__fadeInDown',
+                        popup: '',
                     },
                     hideClass: {
-                        popup: 'animate__animated animate__fadeOutUp',
+                        popup: '',
                     },
                     inputValidator: (pwd) => {
                         if (!pwd) return 'Please enter the Room password';
@@ -5962,10 +5957,10 @@ function handleRoomLocked() {
         showDenyButton: false,
         confirmButtonText: `Ok`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) openURL('/');
@@ -5988,10 +5983,10 @@ function handleUnlockTheRoom() {
         inputPlaceholder: 'Enter the Room password',
         confirmButtonText: `OK`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
         inputValidator: (pwd) => {
             if (!pwd) return 'Please enter the Room password';
@@ -6148,10 +6143,10 @@ function whiteboardAddObj(type) {
                 showCancelButton: true,
                 confirmButtonText: 'OK',
                 showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
+                    popup: '',
                 },
                 hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
+                    popup: '',
                 },
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -6181,10 +6176,10 @@ function whiteboardAddObj(type) {
                 confirmButtonText: `OK`,
                 denyButtonText: `Cancel`,
                 showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
+                    popup: '',
                 },
                 hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
+                    popup: '',
                 },
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -6215,10 +6210,10 @@ function whiteboardAddObj(type) {
                 showCancelButton: true,
                 confirmButtonText: 'OK',
                 showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
+                    popup: '',
                 },
                 hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
+                    popup: '',
                 },
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -6470,10 +6465,10 @@ function confirmCleanBoard() {
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -6710,10 +6705,10 @@ function selectFileToShare(peer_id, broadcast = false) {
         confirmButtonText: `Send`,
         denyButtonText: `Cancel`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -6837,10 +6832,10 @@ function endDownload() {
                 confirmButtonText: `Save`,
                 denyButtonText: `Cancel`,
                 showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
+                    popup: '',
                 },
                 hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
+                    popup: '',
                 },
             }).then((result) => {
                 if (result.isConfirmed) saveBlobToFile(blob, file);
@@ -6862,10 +6857,10 @@ function endDownload() {
             confirmButtonText: `Save`,
             denyButtonText: `Cancel`,
             showClass: {
-                popup: 'animate__animated animate__fadeInDown',
+                popup: '',
             },
             hideClass: {
-                popup: 'animate__animated animate__fadeOutUp',
+                popup: '',
             },
         }).then((result) => {
             if (result.isConfirmed) saveBlobToFile(blob, file);
@@ -6910,10 +6905,10 @@ function sendVideoUrl(peer_id = null) {
         showCancelButton: true,
         confirmButtonText: `Share`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.value) {
@@ -7099,10 +7094,10 @@ function kickOut(peer_id) {
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -7154,10 +7149,10 @@ function handleKickedOut(config) {
             clearInterval(timerInterval);
         },
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then(() => {
         openURL('/');
@@ -7187,10 +7182,10 @@ function showAbout() {
         </div>
         `,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     });
 }
@@ -7209,10 +7204,10 @@ function leaveRoom() {
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -7241,10 +7236,10 @@ function leaveFeedback() {
         confirmButtonText: `Yes`,
         denyButtonText: `No`,
         showClass: {
-            popup: 'animate__animated animate__fadeInDown',
+            popup: '',
         },
         hideClass: {
-            popup: 'animate__animated animate__fadeOutUp',
+            popup: '',
         },
     }).then((result) => {
         if (result.isConfirmed) {
@@ -7285,6 +7280,7 @@ function dragElement(elmnt, dragObj) {
     }
 
     function elementDrag(e) {
+        isAlreadyMoving = true;
         e = e || window.event;
         e.preventDefault();
         // calculate the new cursor position:
@@ -7299,6 +7295,7 @@ function dragElement(elmnt, dragObj) {
 
     function closeDragElement() {
         // stop moving when mouse button is released:
+        isAlreadyMoving = false;
         document.onmouseup = null;
         document.onmousemove = null;
     }
@@ -7479,12 +7476,14 @@ function dragElement(elmnt, dragObj) {
 
 function ScrollToCenter(){
     getId('center-location').scrollIntoView({  block: "center", inline: "center" });
+    
 
     if(isMobileDevice){
         getId("myScreenShareBtnCustom").style.display = 'none';
-        getId("roomMenuBar").classList.toggle('displayBlock');
+        //getId("roomMenuBar").classList.toggle('displayBlock');
         getId("stickyRoomRightButtons").style.display = 'none';
-        
+        var r = document.querySelector(':root');
+        r.style.setProperty('--msger-width','100%')
     }
     
 }
@@ -7507,7 +7506,7 @@ function UpdateRoomInfo(force=null){
     getId('roomName').innerHTML =roomId;
     getId('roomPeerNumber').innerHTML = length;
     getId('stickyRoomInfoBar').style.display = "flex";
-
+    
     var hey = '';
     hey+='<div class="roomUser">'+window.localStorage.peer_name+' (me)</div>'
     if(Object.keys(allPeers).length>1){
@@ -7608,6 +7607,8 @@ function MyScreenShareButtonClick(e){
 }
 
 function ShowMenu(e){
+    showChatRoomDraggable();
+    return;
     getId('roomMenuBar').classList.toggle('displayBlock')
     
     e.classList.toggle('toggleMenuActive');
@@ -7793,7 +7794,7 @@ function userLog(type, message, timer = 3000) {
                 title: type,
                 text: message,
                 hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
+                    popup: '',
                 },
             });
             playSound('alert');
@@ -7807,10 +7808,10 @@ function userLog(type, message, timer = 3000) {
                 title: type,
                 text: message,
                 showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
+                    popup: '',
                 },
                 hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
+                    popup: '',
                 },
             });
             break;
@@ -7822,10 +7823,10 @@ function userLog(type, message, timer = 3000) {
                 title: 'Success',
                 html: message,
                 showClass: {
-                    popup: 'animate__animated animate__fadeInDown',
+                    popup: '',
                 },
                 hideClass: {
-                    popup: 'animate__animated animate__fadeOutUp',
+                    popup: '',
                 },
             });
             break;

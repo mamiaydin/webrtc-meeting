@@ -74,7 +74,7 @@
     </head>
 
     <body onload="initClientPeer()">
-        <noscript>You need to enable JavaScript to run this app.</noscript>
+        
 
         <!-- just 4SEO Optimization -->
 
@@ -96,7 +96,7 @@ access to use this app.
         https://fontawesome.com/icons?d=gallery
         -->
 
-        <div id="buttonsBar" class="fadein">
+        <div id="buttonsBar" class="">
             <button id="shareRoomBtn" class="fas fa-users"></button>
             <button id="audioBtn" class="fas fa-microphone"></button>
             <button id="videoBtn" class="fas fa-video"></button>
@@ -120,22 +120,26 @@ access to use this app.
         https://getemoji.com
         -->
 
-        <section id="msgerDraggable" class="msger-draggable fadein">
+        <section id="msgerDraggable" class="msger-draggable displayBlock">
             <section id="msger" class="msger">
                 <header id="msgerHeader" class="msger-header">
                     <div class="msger-header-title"><button id="msgerClose" class="fas fa-times"></button></div>
                     <div class="msger-header-options">
+                        <!-- 
                         <button id="msgerTheme" class="fas fa-ghost"></button>
                         <button id="msgerSaveBtn" class="fas fa-save"></button>
-                        <button id="msgerClean" class="fas fa-trash"></button>
-                    </div>
+                        
+                        -->
+
+
+                    </div> 
                 </header>
 
                 <main id="msgerChat" class="msger-chat"></main>
 
                 <!-- Start emoji picker -->
 
-                <section id="msgerEmojiPicker" class="hidden fadein"></section>
+                <section id="msgerEmojiPicker" class="hidden "></section>
 
                 <!-- End emoji picker -->
 
@@ -150,29 +154,30 @@ access to use this app.
                 </div>
 
                 <div class="msger-input-buttons">
-                    <button id="msgerEmojiBtn" class="fas fa-smile"></button>
-                    <button id="msgerMarkdownBtn" class="fab fa-markdown"></button>
-                    <button id="msgerShareFileBtn" class="fas fa-paperclip"></button>
-                    <button id="msgerVideoUrlBtn" class="fab fa-youtube"></button>
-                    <button id="msgerCPBtn" class="fas fa-users"></button>
-                    <button id="msgerCleanTextBtn" class="fas fa-trash"></button>
-                    <button id="msgerPasteBtn" class="fas fa-paste"></button>
-                    <label class="switch">
+                    <button id="msgerEmojiBtn" class="btn fas fa-smile"></button>
+                    <!-- <button id="msgerMarkdownBtn" class="fab fa-markdown"></button> -->
+                    <button id="msgerShareFileBtn" class="btn fas fa-paperclip"></button>
+                    
+                    <button id="msgerCPBtn" class="btn fas fa-users"></button>
+                    <button id="msgerClean" class="btn fas fa-trash"></button>
+                    <!-- <button id="msgerCleanTextBtn" class="fas fa-trash"></button> -->
+                    <!-- <button id="msgerPasteBtn" class="fas fa-paste"></button> -->
+                    <!-- <label class="switch">
                         <input id="msgerShowChatOnMsg" type="checkbox" checked />
                         <span class="slider round"></span>
-                    </label>
-                    <button id="msgerSendBtn" class="fas fa-paper-plane"></button>
+                    </label> -->
+                    <button id="msgerSendBtn" class="btn fas fa-paper-plane"></button>
                 </div>
             </section>
 
             <!-- Start private msg -->
 
-            <section id="msgerCP" class="center fadein">
+            <section id="msgerCP" class="center">
                 <section id="msgerCPSec" class="msger">
                     <header id="msgerCPHeader" class="msger-private-header">
                         <div class="msger-header-title"><i class="fas fa-comment-alt"></i> Send Private messages</div>
                         <div class="msger-header-options">
-                            <button id="msgerCPCloseBtn" class="fas fa-times"></button>
+                            <button id="msgerCPCloseBtn" class="btn fas fa-times"></button>
                         </div>
                     </header>
                     <main id="msgerCPChat" class="msger-chat">
@@ -198,16 +203,14 @@ access to use this app.
 
         <!-- Start of caption section -->
 
-        <section id="captionDraggable" class="msger-draggable fadein">
+        <section id="captionDraggable" class="msger-draggable ">
             <section id="caption" class="msger">
                 <header id="captionHeader" class="msger-header">
                     <div class="msger-header-title">
                         <button id="captionClose" class="fas fa-times"></button>
                     </div>
                     <div class="msger-header-options">
-                        <button id="captionTheme" class="fas fa-ghost"></button>
-                        <button id="captionSaveBtn" class="fas fa-save"></button>
-                        <button id="captionClean" class="fas fa-trash"></button>
+                        
                     </div>
                 </header>
 
@@ -226,7 +229,7 @@ access to use this app.
 
         <!-- Start my settings -->
 
-        <section id="mySettings" class="center fadein">
+        <section id="mySettings" class="center ">
             <header id="mySettingsHeader">
                 <button id="mySettingsCloseBtn" class="fas fa-times"></button>
             </header>
@@ -405,7 +408,7 @@ access to use this app.
 
         <!-- Start File Send -->
 
-        <div id="sendFileDiv" class="center fadein">
+        <div id="sendFileDiv" class="center ">
             <img id="imgShareSend" src="../images/share.png" alt="mirotalk-share-send" class="center-img" /><br />
             <div id="sendFileInfo"></div>
             <div id="sendFilePercentage"></div>
@@ -417,7 +420,7 @@ access to use this app.
 
         <!-- Start File Receive -->
 
-        <div id="receiveFileDiv" class="center fadein">
+        <div id="receiveFileDiv" class="center ">
             <img id="imgShareReceive" src="../images/share.png" alt="mirotalk-share-receive" class="center-img" /><br />
             <div id="receiveFileInfo"></div>
             <div id="receiveFilePercentage"></div>
@@ -429,7 +432,7 @@ access to use this app.
 
         <!-- Start video URL iframe -->
 
-        <div id="videoUrlCont" class="center fadein">
+        <div id="videoUrlCont" class="center ">
             <div id="videoUrlHeader">
                 <button id="videoUrlCloseBtn" class="fas fa-times"></button>
             </div>
@@ -448,7 +451,7 @@ access to use this app.
 
         <!-- Start Video - Audio player -->
 
-        <div id="videoAudioUrlCont" class="center fadein">
+        <div id="videoAudioUrlCont" class="center ">
             <div id="videoAudioUrlHeader">
                 <button id="videoAudioCloseBtn" class="fas fa-times"></button>
             </div>
@@ -476,7 +479,7 @@ access to use this app.
         </div>
 
 
-        <div id="roomMenuBar" class="roomMenuBar displayBlock">
+        <div id="roomMenuBar" class="roomMenuBar">
             <div id="userList" class="userList">
             </div>
         </div>
@@ -489,16 +492,21 @@ access to use this app.
         </div>
 
         <div id="stickyButtonsBar" class="stickyButtonsBar">
-            <button class="btn" onclick="ScrollToMe()"><i class="fa fa-home"></i></button>
+            <button class="btn" onclick="ShowMenu(this)"><i class="fa fa-comments"></i></button>
             <button id="myScreenShareBtnCustom" class="btn" onclick="MyScreenShareButtonClick(this)"><i class="fa fa-desktop"></i></button>
+            <button id="msgerVideoUrlBtn" class="btn fab fa-youtube"></button>
             <button id="myAudioBtnCustom" class="btn" onclick="MyAudioButtonClick(this)"><i class="fa fa-microphone"></i></button>
             <button id="myVideoBtnCustom" class="btn" onclick="MyVideoButtonClick(this)"><i class="fa fa-video-camera"></i></button>
             
+            
+            
+            
+           
         </div>
-        <div id="stickyZoomButtons" class="stickyZoomButtons toggleMenuActiveZoomButtons">
+        <div id="stickyZoomButtons" class="stickyZoomButtons">
             <button id="btnZoomIn" onclick="ScaleBody('in')" class="btn zoom"><i class="fas fa-search-plus"></i></button>
             <button id="btnZoomOut" onclick="ScaleBody('out')" class="btn zoom-out"><i class="fas fa-search-minus"></i></button>
-            <button id="btnZoomInit" onclick="ScaleBody('init')" class="btn zoom-init"><i class="fas fa-recycle"></i></button>
+            <button id="btnZoomInit" onclick="ScaleBody('init')" class="btn zoom-init"><i class="fas fa-map-marker"></i></button>
         </div>
         <!-- End Video container -->
 
