@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+    taigatalks:
+        image: mirotalk/p2p:latest
+        hostname: taigatalks
+        volumes:
+            - .env:/src/.env:ro
+            - ./app/:/src/app/:ro
+            - ./public/:/src/public/:ro
+        networks:
+            - proxy
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.taigatalks.rule=Host(`taigatalks.taigalab.com`)"
+            - "traefik.http.routers.taigatalks.entrypoints=websecure"
+            - "traefik.http.routers.taigatalks.tls.certresolver=myresolver"
+            - "traefik.http.services.taigatalks.loadbalancer.server.port=3000"
+
+networks:
+  proxy:
+    external: true

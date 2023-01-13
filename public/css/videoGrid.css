@@ -55,7 +55,7 @@
     width: 100%;
     background: var(--navbar-bg);
     text-align: right;
-    display: none;
+    display: none !important;
 }
 
 .navbar button {
@@ -115,16 +115,7 @@
 --------------------------------------------------------------*/
 
 .videoCircle {
-    position: absolute;
-    width: var(--vmi-wh);
-    height: var(--vmi-wh);
-    border-radius: 50%;
-    /* center */
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
+    transform: scale(2);
 }
 
 .videoDefault {
@@ -185,3 +176,4 @@ video:fullscreen {
         transform: scale(1) translateY(0);
     }
 }
+

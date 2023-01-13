@@ -18,7 +18,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     /* fade in */
-    -webkit-animation: fadeIn ease-in 1;
+    /* -webkit-animation: fadeIn ease-in 1;
     -moz-animation: fadeIn ease-in 1;
     animation: fadeIn ease-in 1;
     -webkit-animation-fill-mode: forwards;
@@ -26,7 +26,7 @@
     animation-fill-mode: forwards;
     -webkit-animation-duration: 1s;
     -moz-animation-duration: 1s;
-    animation-duration: 1s;
+    animation-duration: 1s; */
     overflow: hidden;
 }
 

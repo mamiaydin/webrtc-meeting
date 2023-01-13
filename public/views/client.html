@@ -483,9 +483,22 @@
         </div>
 
         <div id="stickyButtonsBar" class="stickyButtonsBar">
+            <div class="dropup">
+                <button class="dropbtn btn"><i class="fa fa-bars"></i></button>
+                <div class="dropup-content">
+                  <a id="msgerVideoUrlBtn"> <i class="fa fa-share"></i>
+                    Share Video Url</a>
+                    <a onclick="handleWhiteboardToggle()"> <i class="fa fa-chalkboard-teacher"></i>
+                        Open Whiteboard</a>
+                        <a id="myScreenShareBtnCustom" onclick="MyScreenShareButtonClick(this)"><i class="fa fa-desktop"></i>
+                            Share Screen</a>
+                  
+                </div>
+              </div>
+
             <button class="btn" onclick="ShowMenu(this)"><i class="fa fa-comments"></i></button>
-            <button id="myScreenShareBtnCustom" class="btn" onclick="MyScreenShareButtonClick(this)"><i class="fa fa-desktop"></i></button>
-            <button id="msgerVideoUrlBtn" class="btn fab fa-youtube"></button>
+            <button class="btn" onclick="setMyMegaphoneStatus()"><i class="fa fa-bullhorn"></i></button>
+            
             <button id="myAudioBtnCustom" class="btn" onclick="MyAudioButtonClick(this)"><i class="fa fa-microphone"></i></button>
             <button id="myVideoBtnCustom" class="btn" onclick="MyVideoButtonClick(this)"><i class="fa fa-video-camera"></i></button>
             

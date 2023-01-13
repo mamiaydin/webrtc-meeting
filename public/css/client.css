@@ -1303,7 +1303,7 @@ button {
 
 .btn {
     background-color:rgba(0, 0, 0, 0.7);
-    border-radius: 15px;
+    border-radius: 5px;
     color: white;
     border:none;
     padding: 12px 12px;
@@ -1407,6 +1407,48 @@ button {
 .dispayNoneImportant{
     display: none !important;
 }
+
+/* dropdown btn */
+.dropbtn {
+    background-color: #3498DB;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+  }
+  
+  .dropup {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropup-content {
+    font-size: 14px;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 200px;
+    bottom: 50px;
+    z-index: 1;
+  }
+  
+  .dropup-content a {
+    color: black;
+    padding: 12px;
+    text-decoration: none;
+    display: flex !important;
+  }
+  
+  .dropup-content a:hover {background-color: #ccc}
+  
+  .dropup:hover .dropup-content {
+    display: block;
+  }
+  
+  .dropup:hover .dropbtn {
+    background-color: #2980B9;
+}
+/* dropdown btn */
 
 /*
 z-index

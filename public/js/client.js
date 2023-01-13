@@ -218,7 +218,7 @@ let isEnumerateAudioDevices = false;
 let camera = 'user'; // user = front-facing camera on a smartphone. | environment = the back camera on a smartphone.
 let roomLocked = false;
 let myVideoChange = false;
-let myHandStatus = false;
+let myMegaphoneStatus = false;
 let myVideoStatus = false;
 let myAudioStatus = false;
 let myScreenStatus = false;
@@ -343,7 +343,7 @@ let myVideoWrap;
 let myVideoAvatarImage;
 // name && hand video audio status
 let myVideoParagraph;
-let myHandStatusIcon;
+let myMegaphoneStatusIcon;
 let myVideoStatusIcon;
 let myAudioStatusIcon;
 // record Media Stream
@@ -504,7 +504,7 @@ function getHtmlElementsById() {
     tabRoomSecurity = getId('tabRoomSecurity');
     // my conference name, hand, video - audio status
     myVideoParagraph = getId('myVideoParagraph');
-    myHandStatusIcon = getId('myHandStatusIcon');
+    myMegaphoneStatusIcon = getId('myMegaphoneStatusIcon');
     myVideoStatusIcon = getId('myVideoStatusIcon');
     myAudioStatusIcon = getId('myAudioStatusIcon');
     // my whiteboard
@@ -1118,7 +1118,7 @@ async function joinToChannel() {
         peer_video_status: myVideoStatus,
         peer_audio_status: myAudioStatus,
         peer_screen_status: myScreenStatus,
-        peer_hand_status: myHandStatus,
+        peer_megaphone_status: myMegaphoneStatus,
         peer_rec_status: isRecScreenStream,
         peer_privacy_status: isVideoPrivacyActive,
         peer_location: myLocation
@@ -1856,7 +1856,7 @@ async function loadLocalMedia(stream) {
     const mySoundCircle = document.createElement('div');
     const myCountTime = document.createElement('button');
     const myPeerName = document.createElement('p');
-    const myHandStatusIcon = document.createElement('button');
+    const myMegaphoneStatusIcon = document.createElement('button');
     const myVideoToImgBtn = document.createElement('button');
     const myPrivacyBtn = document.createElement('button');
     const myVideoStatusIcon = document.createElement('button');
@@ -1878,9 +1878,9 @@ async function loadLocalMedia(stream) {
     myPeerName.className = 'videoPeerName dispayNoneImportant';
 
     // my hand status element
-    myHandStatusIcon.setAttribute('id', 'myHandStatusIcon');
-    myHandStatusIcon.className = className.handPulsate;
-    myHandStatusIcon.style.setProperty('color', 'rgb(0, 255, 0)');
+    myMegaphoneStatusIcon.setAttribute('id', 'myMegaphoneStatusIcon');
+    myMegaphoneStatusIcon.className = className.handPulsate;
+    myMegaphoneStatusIcon.style.setProperty('color', 'rgb(0, 255, 0)');
 
     // my privacy button
     myPrivacyBtn.setAttribute('id', 'myPrivacyBtn');
@@ -1909,7 +1909,7 @@ async function loadLocalMedia(stream) {
     // no mobile devices
     setTippy(myCountTime, 'Session Time', 'bottom');
     setTippy(myPeerName, 'My name', 'bottom');
-    setTippy(myHandStatusIcon, 'My hand is raised', 'bottom');
+    setTippy(myMegaphoneStatusIcon, 'My hand is raised', 'bottom');
     setTippy(myPrivacyBtn, 'Toggle video privacy', 'bottom');
     setTippy(myVideoStatusIcon, 'My video is on', 'bottom');
     setTippy(myAudioStatusIcon, 'My audio is on', 'bottom');
@@ -1950,13 +1950,13 @@ async function loadLocalMedia(stream) {
 
     myVideoNavBar.appendChild(myVideoStatusIcon);
     myVideoNavBar.appendChild(myAudioStatusIcon);
-    myVideoNavBar.appendChild(myHandStatusIcon);
+    myVideoNavBar.appendChild(myMegaphoneStatusIcon);
 
     // add my pitchBar
     myPitchMeter.appendChild(myPitchBar);
 
     // hand display none on default menad is raised == false
-    myHandStatusIcon.style.display = 'none';
+    myMegaphoneStatusIcon.style.display = 'none';
 
     myLocalMedia.setAttribute('id', myPeerId + '_video');
     myLocalMedia.setAttribute('playsinline', true);
@@ -2086,7 +2086,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id) {
     let peer_video_status = peers[peer_id]['peer_video_status'];
     let peer_audio_status = peers[peer_id]['peer_audio_status'];
     let peer_screen_status = peers[peer_id]['peer_screen_status'];
-    let peer_hand_status = peers[peer_id]['peer_hand_status'];
+    let peer_megaphone_status = peers[peer_id]['peer_megaphone_status'];
     let peer_rec_status = peers[peer_id]['peer_rec_status'];
     let peer_privacy_status = peers[peer_id]['peer_privacy_status'];
     let peer_location = peers[peer_id]['peer_location'];
@@ -2301,7 +2301,7 @@ async function loadRemoteMediaStream(stream, peers, peer_id) {
     // refresh remote peers avatar name
     setPeerAvatarImgName(remoteVideoAvatarImage.id, peer_name, useAvatarApi);
     // refresh remote peers hand icon status and title
-    setPeerHandStatus(peer_id, peer_name, peer_hand_status);
+    setPeerMegaphoneStatus(peer_id, peer_megaphone_status);
     // refresh remote peers video icon status and title
     setPeerVideoStatus(peer_id, peer_video_status);
     // refresh remote peers audio icon status and title
@@ -3269,7 +3269,7 @@ function addEmojiToMsg(data) {
  */
 function setMyHandBtn() {
     myHandBtn.addEventListener('click', async (e) => {
-        setMyHandStatus();
+        setMyMegaphoneStatus();
     });
 }
 
@@ -3889,7 +3889,7 @@ async function shareRoomUrl() {
         try {
             // not add title and description to load metadata from url
             await navigator.share({ url: myRoomUrl });
-            userLog('toast', 'Room Shared successfully!');
+            //userLog('toast', 'Room Shared successfully!');
         } catch (err) {
             errorNavigatorShare = true;
             /*
@@ -3974,7 +3974,7 @@ function copyRoomURL() {
     navigator.clipboard.writeText(tmpInput.value);
     console.log('Copied to clipboard Join Link ', roomURL);
     document.body.removeChild(tmpInput);
-    userLog('toast', 'Meeting URL copied to clipboard 👍');
+    //userLog('toast', 'Meeting URL copied to clipboard 👍');
 }
 
 /**
@@ -4734,7 +4734,7 @@ function handleDataChannelChat(dataMessage) {
     }
     // show message from
     if (!showChatOnMessage) {
-        userLog('toast', `New message from: ${msgFrom}`);
+        //userLog('toast', `New message from: ${msgFrom}`);
     }
 
     playSound('chatMessage');
@@ -4896,9 +4896,9 @@ function appendMessage(from, img, side, msg, privateMsg, msgId = null) {
     // `;
     msgerChat.insertAdjacentHTML('beforeend', msgHTML);
     msgerChat.scrollTop += 500;
-    setTippy(getId('msg-delete-' + chatMessagesId), 'Delete', 'top');
-    setTippy(getId('msg-copy-' + chatMessagesId), 'Copy', 'top');
-    setTippy(getId('msg-private-reply-' + chatMessagesId), 'Reply', 'top');
+    //setTippy(getId('msg-delete-' + chatMessagesId), 'Delete', 'top');
+    //setTippy(getId('msg-copy-' + chatMessagesId), 'Copy', 'top');
+    //setTippy(getId('msg-private-reply-' + chatMessagesId), 'Reply', 'top');
     chatMessagesId++;
 }
 
@@ -5320,7 +5320,7 @@ function updateMyPeerName() {
 
     setPeerAvatarImgName(myPeerId + '_avatar', myPeerName, useAvatarApi);
     setPeerChatAvatarImgName('right', myPeerName);
-    userLog('toast', 'My name changed to ' + myPeerName);
+    //userLog('toast', 'My name changed to ' + myPeerName);
 }
 
 /**
@@ -5357,21 +5357,19 @@ async function emitPeerStatus(element, status) {
 }
 
 /**
- * Set my Hand Status and Icon
+ * Set my Megaphone Status and Icon
  */
-function setMyHandStatus() {
-    if (myHandStatus) {
-        // Raise hand
-        myHandStatus = false;
-        setTippy(myHandBtn, 'Raise your hand', 'right-start');
+function setMyMegaphoneStatus() {
+    if (myMegaphoneStatus) {
+        // close megaphone
+        myMegaphoneStatus = false;
     } else {
-        // Lower hand
-        myHandStatus = true;
-        setTippy(myHandBtn, 'Lower your hand', 'right-start');
-        playSound('raiseHand');
+        // open Megaphone
+        myMegaphoneStatus = true;
     }
-    myHandStatusIcon.style.display = myHandStatus ? 'inline' : 'none';
-    emitPeerStatus('hand', myHandStatus);
+    myVideoWrap.classList.toggle('videoCircle');
+    
+    emitPeerStatus('megaphone', myMegaphoneStatus);
 }
 
 /**
@@ -5417,7 +5415,6 @@ function handlePeerStatus(config) {
     let peer_name = config.peer_name;
     let element = config.element;
     let status = config.status;
-    
     switch (element) {
         case 'video':
             setPeerVideoStatus(peer_id, status);
@@ -5425,8 +5422,8 @@ function handlePeerStatus(config) {
         case 'audio':
             setPeerAudioStatus(peer_id, status);
             break;
-        case 'hand':
-            setPeerHandStatus(peer_id, peer_name, status);
+        case 'megaphone':
+            setPeerMegaphoneStatus(peer_id, status);
             break;
         case 'privacy':
             setVideoPrivacyStatus(peer_id + '_video', status);
@@ -5440,12 +5437,14 @@ function handlePeerStatus(config) {
  * @param {string} peer_name peer name
  * @param {boolean} status of the hand
  */
-function setPeerHandStatus(peer_id, peer_name, status) {
-    let peerHandStatus = getId(peer_id + '_handStatus');
-    peerHandStatus.style.display = status ? 'inline' : 'none';
+function setPeerMegaphoneStatus(peer_id, status) {
+    let peer_videoWrap = getId(peer_id + '_videoWrap');
     if (status) {
-        userLog('toast', peer_name + ' has raised the hand');
-        playSound('raiseHand');
+        peer_videoWrap.classList.add('videoCircle');
+       
+    }
+    else{
+        peer_videoWrap.classList.remove('videoCircle');
     }
 }
 
@@ -5554,7 +5553,7 @@ function sendPrivateMsgToPeer(toPeerId, toPeerName) {
                 pMsg + '<br/><hr>Private message to ' + toPeerName,
                 true,
             );
-            userLog('toast', 'Message sent to ' + toPeerName + ' 👍');
+            //userLog('toast', 'Message sent to ' + toPeerName + ' 👍');
         }
     });
 }
@@ -5805,11 +5804,11 @@ function disableAllPeers(element) {
         if (result.isConfirmed) {
             switch (element) {
                 case 'audio':
-                    userLog('toast', 'Mute everyone 👍');
+                    //userLog('toast', 'Mute everyone 👍');
                     emitPeersAction('muteAudio');
                     break;
                 case 'video':
-                    userLog('toast', 'Hide everyone 👍');
+                    //userLog('toast', 'Hide everyone 👍');
                     emitPeersAction('hideVideo');
                     break;
             }
@@ -5848,11 +5847,11 @@ function disablePeer(peer_id, element) {
         if (result.isConfirmed) {
             switch (element) {
                 case 'audio':
-                    userLog('toast', 'Mute audio 👍');
+                    //userLog('toast', 'Mute audio 👍');
                     emitPeerAction(peer_id, 'muteAudio');
                     break;
                 case 'video':
-                    userLog('toast', 'Hide video 👍');
+                    //userLog('toast', 'Hide video 👍');
                     emitPeerAction(peer_id, 'hideVideo');
                     break;
             }
@@ -6501,7 +6500,7 @@ function whiteboardAction(config) {
  */
 function handleWhiteboardAction(config, logme = true) {
     if (logme) {
-        userLog('toast', `${config.peer_name} whiteboard action: ${config.action}`);
+        //userLog('toast', `${config.peer_name} whiteboard action: ${config.action}`);
     }
     switch (config.action) {
         case 'bgcolor':
@@ -6676,7 +6675,7 @@ function handleFileAbort() {
     receiveInProgress = false;
     receiveFileDiv.style.display = 'none';
     console.log('File transfer aborted');
-    userLog('toast', '⚠️ File transfer aborted');
+    //userLog('toast', '⚠️ File transfer aborted');
 }
 
 /**
@@ -6805,7 +6804,7 @@ function handleFileInfo(config) {
     receiveFileDiv.style.display = 'inline';
     receiveProgress.max = incomingFileInfo.file.fileSize;
     receiveInProgress = true;
-    userLog('toast', fileToReceiveInfo);
+    //userLog('toast', fileToReceiveInfo);
 }
 
 /**
@@ -7060,11 +7059,11 @@ function handleVideoPlayer(config) {
     //
     switch (video_action) {
         case 'open':
-            userLog('toast', peer_name + ' open video player');
+            //userLog('toast', peer_name + ' open video player');
             openVideoUrlPlayer(config);
             break;
         case 'close':
-            userLog('toast', peer_name + ' close video player');
+            //userLog('toast', peer_name + ' close video player');
             closeVideoUrlPlayer();
             break;
     }
