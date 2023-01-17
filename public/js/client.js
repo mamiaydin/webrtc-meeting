@@ -7719,15 +7719,15 @@ function bytesToSize(bytes) {
  */
 function handlePeerVolume(data) {
     let peerCameraElement= getId(data.peer_id + '_videoWrap');
-    var remoteAudio = getId(data.peer_id+ '_audioVolume');
-    var remoteVideo = getId(data.peer_id+ '_video');
-    let distance = getDistanceBetweenElements(myVideoWrap,peerCameraElement);
-    let calculateVolume = CalculateAudioVolume(distance); 
+    // var remoteAudio = getId(data.peer_id+ '_audioVolume');
+    // var remoteVideo = getId(data.peer_id+ '_video');
+    // let distance = getDistanceBetweenElements(myVideoWrap,peerCameraElement);
+    // let calculateVolume = CalculateAudioVolume(distance); 
 
-    //assign remote volume level
-    remoteAudio.value = 100 * calculateVolume;
-    let twoDecimalVolume  = Math.round((calculateVolume + Number.EPSILON) * 100) / 100;
-    remoteVideo.volume = twoDecimalVolume;
+    // //assign remote volume level
+    // remoteAudio.value = 100 * calculateVolume;
+    // let twoDecimalVolume  = Math.round((calculateVolume + Number.EPSILON) * 100) / 100;
+    // remoteVideo.volume = twoDecimalVolume;
     
     if(!peerCameraElement.classList.contains('speaking')){
         peerCameraElement.classList.add('speaking');
@@ -7746,12 +7746,6 @@ function CalculateAudioVolume(distance){
     return y;
 }
 
-function testVolume(){
-    for(let i =400;i<=700;i++){
-        var a = CalculateAudioVolume(i);
-        console.log(a);
-    }
-}
 
 
 /**
