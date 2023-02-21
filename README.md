@@ -1,6 +1,6 @@
 # <p align="center">Taiga Talks</p>
 
-    https://taigatalks.taigalab.com/
+    https://taigatalks.taigalab.com
     
 <p align="center">Free WebRTC - P2P - Simple, Secure, Fast Real-Time Video Conferences Up to 4k and 60fps, compatible with all browsers and platforms.</p>
 
